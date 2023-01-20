@@ -1,5 +1,3 @@
-const mysql = require("mysql2");
-const connectionInfo = require("../utils/dbConfig");
 const MySQLRep = require("./MySQLRep");
 
 class UserMySQLRep extends MySQLRep {
@@ -26,6 +24,20 @@ class UserMySQLRep extends MySQLRep {
                 "Insert into users (login, password, name, surname, role)" +
                     ` values ('${user.login}', '${user.password}', '${user.name}', '${user.surname}', 'customer')`
             )
+            .then((res) => {
+                return res;
+            })
+            .then((data) => {
+                this.stop();
+                return data;
+            });
+        //кароче тут catch добавить
+    }
+
+    async changeRole(id, role) {
+        this.start();
+        return this.connection
+            .execute(`Update users set role = '${role}' where user_id = ${id}`)
             .then((res) => {
                 return res;
             })
@@ -91,37 +103,3 @@ class UserMySQLRep extends MySQLRep {
 }
 
 module.exports = new UserMySQLRep();
-
-// public class UserMySQLRepository
-// {
-
-//
-
-//     }
-
-//     public void DeleteUserById(int id)
-//     {
-//         // Команда select.
-//         string sql = "Delete from `users` where user_id = @id";
-
-//         cmd = new MySqlCommand();
-//         cmd.CommandText = sql;
-//         cmd.Connection = conn;
-
-//         // Добавляем параметр @id в запрос
-//         cmd.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
-
-//         try
-//         {
-//             int rowCount = cmd.ExecuteNonQuery();
-//             Console.WriteLine("Row Count affected = " + rowCount);
-//         }
-//         catch (Exception e)
-//         {
-//             Console.WriteLine("Error: " + e);
-//         }
-
-//         Console.WriteLine("Пользователь успешно удален!");
-
-//     }
-// }
