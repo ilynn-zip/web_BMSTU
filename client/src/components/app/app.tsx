@@ -6,7 +6,7 @@ const App: FC = () => {
     return (
         <div className={styles.app}>
             <h1>
-                <MyButton>Нажми меня</MyButton>
+                <MyButton type="primary">Нажми меня</MyButton>
             </h1>
         </div>
     );
