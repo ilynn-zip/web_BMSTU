@@ -1,12 +1,22 @@
-import { FC } from "react";
+import { FC, MouseEventHandler } from "react";
 import styles from "./mybutton.module.css";
 
 interface MyButtonProps {
     children: React.ReactNode;
-    type: "primary" | "secondary"
+    type: "primary" | "secondary";
+    onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const MyButton: FC<MyButtonProps> = ({ children, type }) => {
-    return <button className={`${styles.myButton} ${type === "primary" ? styles.blueScheme : styles.greenScheme}`}>{children}</button>;
+const MyButton: FC<MyButtonProps> = ({ children, type, onClick }) => {
+    return (
+        <button
+            className={`${styles.myButton} ${
+                type === "primary" ? styles.blue : styles.green
+            }`}
+            onClick={onClick ? onClick : () => {}}
+        >
+            {children}
+        </button>
+    );
 };
 export { MyButton };
