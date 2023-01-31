@@ -3,15 +3,17 @@ import styles from "./mybutton.module.css";
 
 interface MyButtonProps {
     children: React.ReactNode;
-    type: "primary" | "secondary";
+    skin: "primary" | "secondary";
+    type?: "button" | "submit" | "reset";
     onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const MyButton: FC<MyButtonProps> = ({ children, type, onClick }) => {
+const MyButton: FC<MyButtonProps> = ({ children, skin, type, onClick }) => {
     return (
         <button
+            type={type}
             className={`${styles.myButton} ${
-                type === "primary" ? styles.blue : styles.green
+                skin === "primary" ? styles.blue : styles.green
             }`}
             onClick={onClick ? onClick : () => {}}
         >

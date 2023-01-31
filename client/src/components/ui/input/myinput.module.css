@@ -1,13 +1,25 @@
 .myInput {
-    width: 475px;
-    height: 100px;
-
     border-radius: 15px;
+
+    padding: 15px;
 
     border: none;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+.myInput:invalid {
+    border: solid 2px red;
+}
+
 .myInput:focus {
-    border: 20px solid black;
+    outline: none;
+    border: solid 3px black;
+}
+
+.myCheckbox {
+    border: none;
+    outline: none;
+
+    width: 50px;
+    height: 50px;
 }

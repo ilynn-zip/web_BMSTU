@@ -1,0 +1,23 @@
+.content {
+    display: flex;
+    align-items: center;
+
+    gap: 50px;
+
+    background: white;
+    border-radius: 15px;
+
+    padding: 5px 10px;
+
+    max-width: 500px;
+
+    font-size: 26px;
+    font-family: "Noto Sans";
+}
+
+.icons {
+}
+
+.icons:hover {
+    opacity: 50%;
+}
