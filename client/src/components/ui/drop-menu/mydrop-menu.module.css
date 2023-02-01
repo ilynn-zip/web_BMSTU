@@ -1,0 +1,26 @@
+.mySelect {
+    outline: none;
+
+    border: 2px black solid;
+
+    padding: 5px;
+}
+
+.mySelectWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-width: 400px;
+
+    border-radius: 15px;
+
+    padding: 5px 10px;
+
+    background: white;
+}
+
+.mySelectTitle {
+    font-family: "Noto Sans";
+    font-size: 26px;
+}

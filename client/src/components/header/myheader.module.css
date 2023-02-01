@@ -7,13 +7,18 @@
 
     color: white;
 
-    padding: 10px 30px;
+    padding: 20px 30px;
 }
 
 .content {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.myLink {
+    color: white;
+    text-decoration: none;
 }
 
 .leftCorner {

@@ -1,0 +1,63 @@
+.myTable {
+    color: white;
+    font-weight: bold;
+
+    border-radius: 15px 15px 0 0;
+
+    overflow: hidden;
+
+    border-collapse: collapse;
+
+    max-width: 1411px;
+    max-height: 668px;
+}
+.myThead {
+}
+
+.myThead th {
+    border-bottom: 2px solid black;
+    padding: 20px;
+}
+
+.myTbody svg:hover {
+    opacity: 0.5;
+}
+
+.myTbody tr td {
+    border-bottom: 2px solid black;
+    padding: 20px;
+
+    max-width: 200px;
+}
+
+.buttonCellGreen {
+    background: var(--secondary-color-regular) !important;
+    border: 2px solid black;
+}
+.buttonCellGreen:hover {
+    background: var(--secondary-color-light) !important;
+}
+
+.buttonCellBlue {
+    background: var(--primary-color-regular) !important;
+    border: 2px solid black;
+}
+.buttonCellBlue:hover {
+    background: var(--primary-color-light) !important;
+}
+
+.green tr td {
+    background: var(--secondary-color-light);
+}
+
+.green th {
+    background: var(--secondary-color-dark);
+}
+
+.blue tr td {
+    background: var(--primary-color-light);
+}
+
+.blue th {
+    background: var(--primary-color-dark);
+}

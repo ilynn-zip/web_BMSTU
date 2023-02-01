@@ -1,4 +1,4 @@
-import { FC, HTMLInputTypeAttribute, InputHTMLAttributes } from "react";
+import { FC, HTMLInputTypeAttribute } from "react";
 import styles from "./myinput.module.css";
 
 interface MyInputProps {

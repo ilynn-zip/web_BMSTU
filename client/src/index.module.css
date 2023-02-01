@@ -2,6 +2,11 @@ body {
     margin: 0;
 }
 
+html {
+    font-family: "Noto Sans";
+    font-size: 26px;
+}
+
 :root {
     --primary-color-light: #cbe1f5;
     --primary-color-regular: #84b3e0;
