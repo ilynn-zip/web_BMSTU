@@ -1,19 +1,28 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./home-page.module.css";
 import { CardsList } from "../../components/ui/cards-list/cards-list";
 import { Filter } from "../../components/filter/filter";
-import { getUsers } from "../../utils/user-api";
+import { TPets } from "../../types/types";
+import { getPets } from "../../utils/customer-api";
 interface HomePageProps {}
 
 const HomePage: FC<HomePageProps> = ({}) => {
+    const [pets, setPets] = useState<TPets>({ pets: [], petsInfo: [] });
     useEffect(() => {
-        getUsers();
+        getPets()
+            .then((data) => {
+                console.log(data);
+                setPets(data);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }, []);
 
     return (
         <div className={styles.homePageWrapper}>
-            <Filter />
-            <CardsList />
+            <Filter list={pets} changeList={setPets} />
+            <CardsList pets={pets} />
         </div>
     );
 };

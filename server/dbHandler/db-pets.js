@@ -1,7 +1,7 @@
 const MySQLRep = require("./MySQLRep");
 
 class PetMySQLRep extends MySQLRep {
-    async getPets() {
+    async getPetsInfo() {
         this.start();
 
         return this.connection
@@ -14,6 +14,21 @@ class PetMySQLRep extends MySQLRep {
                 return data;
             });
     }
+
+    async getPets() {
+        this.start();
+
+        return this.connection
+            .execute("SELECT * FROM `pets`")
+            .then((res) => {
+                return res[0];
+            })
+            .then((data) => {
+                this.stop();
+                return data;
+            });
+    }
+
     async addPetInfo(payload) {
         this.start();
 
@@ -32,7 +47,7 @@ class PetMySQLRep extends MySQLRep {
             });
     }
 
-    async addPetPrice(payload) {
+    async addPet(payload) {
         this.start();
 
         return this.connection

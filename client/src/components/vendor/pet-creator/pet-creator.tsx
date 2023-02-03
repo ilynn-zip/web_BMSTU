@@ -14,8 +14,8 @@ const PetsCreator: FC<PetsCreatorProps> = ({}) => {
                 <MyDropMenu />
                 <MyDropMenu />
                 <MyDropMenu />
-                <MyCheckbox text='Способность плавать' />
-                <MyCheckbox text='Способность плодиться' />
+                {/* <MyCheckbox text='Способность плавать' />
+                <MyCheckbox text='Способность плодиться' /> */}
                 <MyButton type='submit' skin='primary'>
                     Добавить питомца
                 </MyButton>

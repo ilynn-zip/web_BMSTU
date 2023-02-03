@@ -8,7 +8,9 @@ export const getUsers = () => {
             return res.json();
         })
         .then((answer: TAnswer) => {
-            console.log(answer);
+            if (answer.success) {
+                return answer.payload;
+            } else return Promise.reject(answer.payload);
         });
 };
 
