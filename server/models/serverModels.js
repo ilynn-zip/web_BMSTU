@@ -1,9 +1,9 @@
-const generateServerAnswer = (success, payload) => {
+const serverAnswer = (success, message, payload) => {
     return {
         success,
-        message: "",
+        message,
         payload,
     };
 };
 
-module.exports = generateServerAnswer(true, {});
+module.exports = { serverAnswer };

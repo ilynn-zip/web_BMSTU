@@ -1,12 +1,26 @@
-const MySQLRep = require("../dbHandler/MySQLRep");
+const MySQLRep = require("./MySQLRep");
 
-class OrdersMySQLRep extends MySQLRep {
-    async createOrder(order) {
+class ShopMySQLRep extends MySQLRep {
+    async getShops() {
+        this.start();
+
+        return this.connection
+            .execute("SELECT * FROM `shops`")
+            .then((res) => {
+                return res[0];
+            })
+            .then((data) => {
+                this.stop();
+                return data;
+            });
+    }
+
+    async addNewShop(shop) {
         this.start();
 
         return this.connection
             .execute(
-                `Insert into orders (user_id, pet_id) values (${order.userId}, ${order.petId})`
+                `Insert into shops (shop_id, adress, city, owner) values (${shop.shop_id}, ${shop.adress}, ${shop.city}, ${shop.owner})`
             )
             .then((res) => {
                 return res[0];
@@ -17,13 +31,11 @@ class OrdersMySQLRep extends MySQLRep {
             });
     }
 
-    async createOrderWithId(order) {
+    async deleteShopById(id) {
         this.start();
 
         return this.connection
-            .execute(
-                `Insert into orders (order_number, user_id, pet_id) values (${order.order_number}, ${order.userId}, ${order.petId})`
-            )
+            .execute(`Delete from shops where shop_id = ${id}`)
             .then((res) => {
                 return res[0];
             })
@@ -33,43 +45,26 @@ class OrdersMySQLRep extends MySQLRep {
             });
     }
 
-    async getOrderedPets(userId) {
+    async getShopIdByAdress(address) {
         this.start();
 
         return this.connection
-            .execute(
-                `Select pet_id, order_number from orders where user_id = ${userId} `
-            )
+            .execute(`Select * from shops where adress like '${address}' `)
             .then((res) => {
-                return res[0];
+                return res[0][0];
             })
             .then((data) => {
                 this.stop();
                 return data;
             });
     }
-
-    async deleteOrderByNumber(number) {
+    async getShopAdressByShopId(shopId) {
         this.start();
 
         return this.connection
-            .execute(`Delete from orders where order_number = ${number}`)
+            .execute(`Select * from shops where shop_id = ${shopId}`)
             .then((res) => {
-                return res[0];
-            })
-            .then((data) => {
-                this.stop();
-                return data;
-            });
-    }
-
-    async getOrders() {
-        this.start();
-
-        return this.connection
-            .execute(`SELECT * FROM orders`)
-            .then((res) => {
-                return res[0];
+                return res[0][0];
             })
             .then((data) => {
                 this.stop();
@@ -78,4 +73,4 @@ class OrdersMySQLRep extends MySQLRep {
     }
 }
 
-module.exports = new OrdersMySQLRep();
+module.exports = new ShopMySQLRep();

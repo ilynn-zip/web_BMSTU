@@ -21,8 +21,8 @@ class UserMySQLRep extends MySQLRep {
         this.start();
         return this.connection
             .execute(
-                "Insert into users (login, password, name, surname, role)" +
-                    ` values ('${user.login}', '${user.password}', '${user.name}', '${user.surname}', 'customer')`
+                "Insert into users (login, password, name, surname, telephone, role)" +
+                    ` values ('${user.login}', '${user.password}', '${user.name}', '${user.surname}','${user.telephone}', 'customer')`
             )
             .then((res) => {
                 return res;
@@ -49,19 +49,19 @@ class UserMySQLRep extends MySQLRep {
     }
 
     // найти user по login // login => string
-    async getUserByLogin(payload) {
+    async getUserByLogin(login) {
         this.start();
-        if (payload.login === "" || payload.login === undefined) {
+        if (login === "" || login === undefined) {
             return Promise.reject("empty payload");
         }
         return this.connection
-            .execute(`Select * from users where login like '${payload.login}'`)
+            .execute(`Select * from users where login like '${login}'`)
             .then((res) => {
                 return res[0];
             })
             .then((data) => {
                 this.stop();
-                return data;
+                return data[0];
             });
     }
 

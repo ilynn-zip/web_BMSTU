@@ -2,14 +2,13 @@ import { FC } from "react";
 import styles from "./app.module.css";
 import { MyHeader } from "../header/myheader";
 import { MyFooter } from "../footer/myfooter";
-import { CardsList } from "../ui/cards-list/cards-list";
 import { Routes, Route } from "react-router-dom";
 import { LoginPage } from "../../pages/login/login-page";
 import { RegisterPage } from "../../pages/register/register-page";
-import { MyTable } from "../ui/table/mytable";
 import { VendorMenuPage } from "../../pages/vendor/vendor-page";
 import { CustomerMenuPage } from "../../pages/customer/customer-page";
 import { AdminMenuPage } from "../../pages/admin/admin-page";
+import { HomePage } from "../../pages/home/home-page";
 
 const App: FC = () => {
     return (
@@ -17,7 +16,7 @@ const App: FC = () => {
             <MyHeader type='admin' />
             <div className={styles.appContent}>
                 <Routes>
-                    <Route path='/' element={<CardsList />} />
+                    <Route path='/' element={<HomePage />} />
                     <Route path='/customer' element={<CustomerMenuPage />} />
                     <Route
                         path='/customer/orders'

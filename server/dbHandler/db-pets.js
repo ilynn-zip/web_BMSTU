@@ -1,4 +1,4 @@
-const MySQLRep = require("../dbHandler/MySQLRep");
+const MySQLRep = require("./MySQLRep");
 
 class PetMySQLRep extends MySQLRep {
     async getPets() {

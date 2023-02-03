@@ -1,4 +1,4 @@
-const db = require("../dbHandler/dbPets");
+const db = require("../dbHandler/db-pets");
 
 class customerController {
     async getPets(request, response) {

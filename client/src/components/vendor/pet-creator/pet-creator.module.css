@@ -1,0 +1,42 @@
+.petsCreatorWrapper {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+
+    background: var(--primary-color-light);
+    border-radius: 15px;
+    padding: 20px;
+
+    gap: 120px;
+}
+
+.leftContent {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+
+    gap: 30px;
+}
+
+.leftContent span {
+    font-size: 64px;
+    color: white;
+}
+
+.rightContent {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+
+    color: white;
+    font-weight: bold;
+}
+
+.rightContent div {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
+}

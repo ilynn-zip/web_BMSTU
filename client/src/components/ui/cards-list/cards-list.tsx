@@ -9,6 +9,8 @@ const CardsList: FC<CardsListProps> = ({}) => {
         <div className={styles.CardsListWrapper}>
             <Card />
             <Card />
+            <Card />
+            <Card />
         </div>
     );
 };
