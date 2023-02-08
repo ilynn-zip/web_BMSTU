@@ -2,12 +2,15 @@ import { FC } from "react";
 import styles from "./myheader.module.css";
 import { ProfileIcon } from "../ui/icons/icons";
 import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { TUserState } from "../../services/reducers/user/user";
+import { TStore } from "../../types/types";
 
-interface MyHeaderProps {
-    type: "admin" | "vendor" | "customer" | "notAuthorized";
-}
+interface MyHeaderProps {}
 
-const MyHeader: FC<MyHeaderProps> = ({ type }) => {
+const MyHeader: FC<MyHeaderProps> = ({}) => {
+    const { user } = useSelector<TStore, TUserState>((store) => store.user);
+    const type = user.role;
     return (
         <div className={`${styles.myHeader}`}>
             <div className={`${styles.content}`}>
@@ -41,7 +44,14 @@ const MyHeader: FC<MyHeaderProps> = ({ type }) => {
                 </div>
                 <div className={`${styles.rightCorner}`}>
                     <ProfileIcon size='50' color='white' />
-                    <NavLink className={styles.myLink} to={"/login"}>
+                    <NavLink
+                        className={styles.myLink}
+                        to={
+                            user.role === "notAuthorized"
+                                ? "/login"
+                                : "/customer"
+                        }
+                    >
                         Личный кабинет
                     </NavLink>
                 </div>

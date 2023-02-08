@@ -15,6 +15,22 @@ class PetMySQLRep extends MySQLRep {
             });
     }
 
+    async getPetsWithInfo() {
+        this.start();
+
+        return this.connection
+            .execute(
+                "SELECT * from pets JOIN pet_info on pets.pet_id = pet_info.pet_id;"
+            )
+            .then((res) => {
+                return res[0];
+            })
+            .then((data) => {
+                this.stop();
+                return data;
+            });
+    }
+
     async getPets() {
         this.start();
 

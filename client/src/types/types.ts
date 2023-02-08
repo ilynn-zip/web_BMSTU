@@ -1,3 +1,11 @@
+import { TPetsState } from "../services/reducers/pets/pets";
+import { TUserState } from "../services/reducers/user/user";
+
+export type TStore = {
+    user: TUserState;
+    pets: TPetsState;
+};
+
 export type TUser = {
     name: string;
     surname: string;
@@ -6,9 +14,12 @@ export type TUser = {
     password: string;
 };
 
-export type TPets = {
-    pets: TPet[];
-    petsInfo: TPetInfo[];
+export type TUserClient = {
+    name: string;
+    surname: string;
+    telephone: string;
+    login: string;
+    role: "admin" | "vendor" | "customer" | "notAuthorized";
 };
 
 export type TPet = {
@@ -16,16 +27,12 @@ export type TPet = {
     shop_id: number;
     price: number;
     available: "yes" | "no";
-};
-
-export type TPetInfo = {
-    pet_id: number;
     pet_type: "Cat" | "Dog" | "Hedgehog" | "Raccoon" | "Fox";
     name: string;
     age: number;
     color: string;
-    can_swim: boolean;
-    reproduce_ability: boolean;
+    can_swim: 0 | 1;
+    reproduce_ability: 0 | 1;
     gender: "Male" | "Female";
     pet_breed: string;
 };

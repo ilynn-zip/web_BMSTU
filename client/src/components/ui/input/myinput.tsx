@@ -2,7 +2,7 @@ import { FC, HTMLInputTypeAttribute } from "react";
 import styles from "./myinput.module.css";
 
 interface MyInputProps {
-    placeholder: string;
+    placeholder?: string;
     type?: HTMLInputTypeAttribute;
     required?: boolean;
     name?: string;

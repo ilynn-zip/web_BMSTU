@@ -2,37 +2,64 @@ import { FC } from "react";
 import styles from "./app.module.css";
 import { MyHeader } from "../header/myheader";
 import { MyFooter } from "../footer/myfooter";
-import { Routes, Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { LoginPage } from "../../pages/login/login-page";
 import { RegisterPage } from "../../pages/register/register-page";
 import { VendorMenuPage } from "../../pages/vendor/vendor-page";
 import { CustomerMenuPage } from "../../pages/customer/customer-page";
 import { AdminMenuPage } from "../../pages/admin/admin-page";
 import { HomePage } from "../../pages/home/home-page";
+import ProtectedRoute from "../protected-route/protected-route";
 
 const App: FC = () => {
     return (
         <div className={styles.app}>
-            <MyHeader type='admin' />
+            <MyHeader />
             <div className={styles.appContent}>
-                <Routes>
-                    <Route path='/' element={<HomePage />} />
-                    <Route path='/customer' element={<CustomerMenuPage />} />
-                    <Route
+                <Switch>
+                    <Route path='/' exact>
+                        <HomePage />
+                    </Route>
+                    <ProtectedRoute path='/customer' exact isRequiredAuthed>
+                        <CustomerMenuPage />
+                    </ProtectedRoute>
+                    <ProtectedRoute
                         path='/customer/orders'
-                        element={<CustomerMenuPage />}
-                    />
-                    <Route path='/vendor' element={<VendorMenuPage />} />
-                    <Route path='/vendor/orders' element={<VendorMenuPage />} />
-                    <Route path='/vendor/pets' element={<VendorMenuPage />} />
-                    <Route
+                        exact
+                        isRequiredAuthed
+                    >
+                        <CustomerMenuPage />
+                    </ProtectedRoute>
+                    <ProtectedRoute path='/vendor' exact isRequiredAuthed>
+                        <VendorMenuPage />
+                    </ProtectedRoute>
+                    <ProtectedRoute
+                        path='/vendor/orders'
+                        exact
+                        isRequiredAuthed
+                    >
+                        <VendorMenuPage />
+                    </ProtectedRoute>
+                    <ProtectedRoute path='/vendor/pets' exact isRequiredAuthed>
+                        <VendorMenuPage />
+                    </ProtectedRoute>
+                    <ProtectedRoute
                         path='/vendor/petsCreation'
-                        element={<VendorMenuPage />}
-                    />
-                    <Route path='/admin' element={<AdminMenuPage />} />
-                    <Route path='/register' element={<RegisterPage />} />
-                    <Route path='/login' element={<LoginPage />} />
-                </Routes>
+                        exact
+                        isRequiredAuthed
+                    >
+                        <VendorMenuPage />
+                    </ProtectedRoute>
+                    <ProtectedRoute path='/admin' exact isRequiredAuthed>
+                        <AdminMenuPage />
+                    </ProtectedRoute>
+                    <ProtectedRoute path='/register' exact>
+                        <RegisterPage />
+                    </ProtectedRoute>
+                    <ProtectedRoute path='/login' exact>
+                        <LoginPage />
+                    </ProtectedRoute>
+                </Switch>
             </div>
             <MyFooter type='admin' />
         </div>

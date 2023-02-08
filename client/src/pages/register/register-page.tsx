@@ -3,7 +3,7 @@ import styles from "./register-page.module.css";
 import { MyInput } from "../../components/ui/input/myinput";
 import { MyButton } from "../../components/ui/button/mybutton";
 import { Link } from "react-router-dom";
-import { addUser } from "../../utils/user-api";
+import { register } from "../../utils/user-api";
 import { useForm } from "../../hooks/useForm";
 
 interface RegisterPageProps {}
@@ -18,7 +18,7 @@ const RegisterPage: FC<RegisterPageProps> = ({}) => {
     });
     const onFormSubmit: FormEventHandler = (e) => {
         e.preventDefault();
-        addUser(values);
+        register(values);
     };
     return (
         <form onSubmit={onFormSubmit} className={styles.RegisterPageContent}>

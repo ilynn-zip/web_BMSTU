@@ -13,8 +13,8 @@ export const getPets = () => {
         });
 };
 
-export const getShops = () => {
-    return fetch(`${CUSTOMER_API_URL}/getShops`)
+export const getShops = async () => {
+    return await fetch(`${CUSTOMER_API_URL}/getShops`)
         .then((res) => {
             return res.json();
         })

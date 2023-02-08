@@ -1,3 +1,4 @@
+import { boundUser } from "../services/actions/user";
 import { TAnswer, TAuthData, TUser } from "../types/types";
 
 const USER_API_URL = "http://localhost:5000/api/user";
@@ -14,8 +15,8 @@ export const getUsers = () => {
         });
 };
 
-export const addUser = (user: TUser) => {
-    return fetch(`${USER_API_URL}/addUser`, {
+export const register = (user: TUser) => {
+    return fetch(`${USER_API_URL}/register`, {
         method: "post",
         headers: {
             Accept: "application/json",
@@ -27,7 +28,10 @@ export const addUser = (user: TUser) => {
             return res.json();
         })
         .then((answer: TAnswer) => {
-            console.log(answer);
+            if (answer.success) {
+                boundUser.setUser(answer.payload);
+            }
+            alert(answer.message);
         });
 };
 
@@ -44,6 +48,9 @@ export const auth = (authData: TAuthData) => {
             return res.json();
         })
         .then((answer: TAnswer) => {
-            console.log(answer);
+            if (answer.success) {
+                boundUser.setUser(answer.payload);
+            }
+            alert(answer.message);
         });
 };

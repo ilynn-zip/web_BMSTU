@@ -2,14 +2,13 @@ import { FC } from "react";
 import { MyButton } from "../../button/mybutton";
 import pic from "../../../../img/test.jpg";
 import styles from "./card.module.css";
-import { TPet, TPetInfo } from "../../../../types/types";
+import { TPet } from "../../../../types/types";
 
 interface CardProps {
     pet: TPet;
-    petInfo: TPetInfo;
 }
 
-const Card: FC<CardProps> = ({ pet, petInfo }) => {
+const Card: FC<CardProps> = ({ pet }) => {
     return (
         <div className={styles.cardWrapper}>
             <div className={styles.cardImgWrapper}>
@@ -17,10 +16,10 @@ const Card: FC<CardProps> = ({ pet, petInfo }) => {
             </div>
             <div className={styles.cardContent}>
                 <div className={styles.cardOption}>
-                    <p>Вид</p> <p>{petInfo.pet_breed}</p>
+                    <p>Вид</p> <p>{pet.pet_breed}</p>
                 </div>
                 <div className={styles.cardOption}>
-                    <p>Возраст</p> <p>{petInfo.age}</p>
+                    <p>Возраст</p> <p>{pet.age}</p>
                 </div>
                 <div className={styles.cardOption}>
                     <p>Цена</p> <p>{pet.price}$</p>

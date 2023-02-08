@@ -4,20 +4,14 @@ const { serverAnswer } = require("../models/serverModels");
 
 class customerController {
     async getPets(request, response) {
-        let result = [];
+        let result;
         let answer;
         try {
-            await dbPets.getPets().then((pets) => {
-                result[0] = pets;
+            await dbPets.getPetsWithInfo().then((pets) => {
+                result = pets;
             });
 
-            await dbPets.getPetsInfo().then((petsInfo) => {
-                result[1] = petsInfo;
-            });
-            answer = serverAnswer(true, "OK", {
-                pets: result[0],
-                petsInfo: result[1],
-            });
+            answer = serverAnswer(true, "OK", [...result]);
         } catch (error) {
             answer = serverAnswer(false, `${error}`, {});
         }

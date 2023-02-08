@@ -17,10 +17,19 @@ class userController {
     }
 
     async register(request, response) {
-        let answer;
+        let answer, result;
         try {
             await dbUsers.addUser(request.body);
-            answer = serverAnswer(true, "User was added!", {});
+            await dbUsers.getUserByLogin(request.body.login).then((data) => {
+                result = { ...data };
+            });
+            answer = serverAnswer(true, "User was added!", {
+                login: result.login,
+                name: result.name,
+                surname: result.surname,
+                role: result.role,
+                telephone: result.telephone,
+            });
         } catch (error) {
             answer = serverAnswer(false, `${error}`, {});
         }
@@ -47,7 +56,13 @@ class userController {
             return response.json(serverAnswer(false, "Incorrect password", {}));
         }
         return response.json(
-            serverAnswer(true, "Successfully authorized", { ...result })
+            serverAnswer(true, "Successfully authorized", {
+                login: result.login,
+                name: result.name,
+                surname: result.surname,
+                role: result.role,
+                telephone: result.telephone,
+            })
         );
     }
 }
