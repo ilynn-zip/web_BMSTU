@@ -38,11 +38,9 @@ class userController {
     }
 
     async auth(request, response) {
-        console.log(request.body);
         let result;
         try {
             await dbUsers.getUserByLogin(request.body["login"]).then((data) => {
-                console.log(data);
                 result = data;
             });
         } catch (error) {

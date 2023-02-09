@@ -56,11 +56,8 @@ class customerController {
                 result = data;
                 console.log(data);
             });
-            // result = result.map((el) => {
-            //     return await dbPets.getPetById
-            // })TODO 
 
-            answer = serverAnswer(true, "Order Created", {});
+            answer = serverAnswer(true, "OK", result);
         } catch (error) {
             answer = serverAnswer(false, `${error}`, {});
         }
