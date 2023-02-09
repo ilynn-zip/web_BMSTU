@@ -1,14 +1,10 @@
 import { FC } from "react";
 import styles from "./mytable.module.css";
+import { TTableData } from "../../../types/types";
 
 interface MyTableProps {
     skin?: "primary" | "secondary";
-    tableData: {
-        head: string[];
-        body: string[][];
-        buttons: Array<{ title: string; onClick: () => void }>;
-        icons: JSX.Element[];
-    };
+    tableData: TTableData;
 }
 
 const MyTable: FC<MyTableProps> = ({ skin = "secondary", tableData }) => {
@@ -23,12 +19,20 @@ const MyTable: FC<MyTableProps> = ({ skin = "secondary", tableData }) => {
                     {tableData.head.map((el) => {
                         return <th>{el}</th>;
                     })}
-                    {tableData.buttons.map(() => {
-                        return <th></th>;
-                    })}
-                    {tableData.icons.map(() => {
-                        return <th></th>;
-                    })}
+                    {tableData.buttons ? (
+                        tableData.buttons.map(() => {
+                            return <th></th>;
+                        })
+                    ) : (
+                        <></>
+                    )}
+                    {tableData.icons ? (
+                        tableData.icons.map(() => {
+                            return <th></th>;
+                        })
+                    ) : (
+                        <></>
+                    )}
                 </tr>
             </thead>
             <tbody
@@ -42,23 +46,31 @@ const MyTable: FC<MyTableProps> = ({ skin = "secondary", tableData }) => {
                             {row.map((cell) => {
                                 return <td>{cell}</td>;
                             })}
-                            {tableData.buttons.map((el) => {
-                                return (
-                                    <td
-                                        className={
-                                            skin === "primary"
-                                                ? styles.buttonCellBlue
-                                                : styles.buttonCellGreen
-                                        }
-                                        onClick={el.onClick}
-                                    >
-                                        {el.title}
-                                    </td>
-                                );
-                            })}
-                            {tableData.icons.map((el) => {
-                                return <td>{el}</td>;
-                            })}
+                            {tableData.buttons ? (
+                                tableData.buttons.map((el) => {
+                                    return (
+                                        <td
+                                            className={
+                                                skin === "primary"
+                                                    ? styles.buttonCellBlue
+                                                    : styles.buttonCellGreen
+                                            }
+                                            onClick={el.onClick}
+                                        >
+                                            {el.title}
+                                        </td>
+                                    );
+                                })
+                            ) : (
+                                <></>
+                            )}
+                            {tableData.icons ? (
+                                tableData.icons.map((el) => {
+                                    return <td>{el}</td>;
+                                })
+                            ) : (
+                                <></>
+                            )}
                         </tr>
                     );
                 })}

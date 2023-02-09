@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Profile } from "../../components/customer/profile/profile";
 import { MyTable } from "../../components/ui/table/mytable";
 import { CancelIcon, EditIcon } from "../../components/ui/icons/icons";
+import { CustomerOrders } from "../../components/customer/customer-orders/customer-orders";
 
 interface CustomerMenuPageProps {}
 
@@ -55,9 +56,7 @@ const CustomerMenuPage: FC<CustomerMenuPageProps> = ({}) => {
     return (
         <>
             {pathname === "/customer" && <Profile />}
-            {pathname === "/customer/orders" && (
-                <MyTable tableData={tableData} />
-            )}
+            {pathname === "/customer/orders" && <CustomerOrders />}
         </>
     );
 };

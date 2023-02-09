@@ -1,7 +1,7 @@
 import { store } from "../store";
 import { bindActionCreators } from "redux";
 import { SET_AUTHED, SET_USER, LOGOUT } from "../action-types/user";
-import { TUser } from "../../types/types";
+import { TUserClient } from "../../types/types";
 
 //types
 
@@ -11,7 +11,7 @@ export interface ISetAuthed {
 }
 export interface ISetUser {
     readonly type: typeof SET_USER;
-    readonly payload: TUser;
+    readonly payload: TUserClient;
 }
 export interface ILogout {
     readonly type: typeof LOGOUT;
@@ -25,7 +25,7 @@ const doSetAuthed = (status: boolean): ISetAuthed => ({
     type: SET_AUTHED,
     payload: status,
 });
-const doSetUser = (user: TUser): ISetUser => ({
+const doSetUser = (user: TUserClient): ISetUser => ({
     type: SET_USER,
     payload: user,
 });

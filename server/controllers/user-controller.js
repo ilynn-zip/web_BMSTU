@@ -24,6 +24,7 @@ class userController {
                 result = { ...data };
             });
             answer = serverAnswer(true, "User was added!", {
+                user_id: result.user_id,
                 login: result.login,
                 name: result.name,
                 surname: result.surname,
@@ -57,6 +58,7 @@ class userController {
         }
         return response.json(
             serverAnswer(true, "Successfully authorized", {
+                user_id: result.user_id,
                 login: result.login,
                 name: result.name,
                 surname: result.surname,

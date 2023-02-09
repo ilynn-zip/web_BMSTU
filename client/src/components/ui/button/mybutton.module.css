@@ -18,6 +18,11 @@
     transition: 0.5s;
 }
 
+.myButton:disabled {
+    background: var(--primary-color-dark);
+    opacity: 0.3;
+}
+
 .blue {
     background: var(--primary-color-dark);
 }

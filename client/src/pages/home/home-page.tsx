@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import styles from "./home-page.module.css";
-import { CardsList } from "../../components/ui/cards-list/cards-list";
+import { CardsList } from "../../components/cards-list/cards-list";
 import { Filter } from "../../components/filter/filter";
 import { getPets } from "../../utils/customer-api";
 import { TPet, TStore } from "../../types/types";
@@ -16,9 +16,10 @@ const HomePage: FC<HomePageProps> = ({}) => {
     useEffect(() => {
         getPets()
             .then((data: TPet[]) => {
-                console.log(data);
                 boundPets.setPets(data);
-                boundPets.setFilteredPets(data);
+                boundPets.setFilteredPets(
+                    data.filter((pet) => pet.available === "yes")
+                );
             })
             .catch((err) => {
                 console.log(err);

@@ -6,6 +6,13 @@ export type TStore = {
     pets: TPetsState;
 };
 
+export type TTableData = {
+    head: string[];
+    body: string[][];
+    buttons?: Array<{ title: string; onClick: () => void }>;
+    icons?: JSX.Element[];
+};
+
 export type TUser = {
     name: string;
     surname: string;
@@ -15,11 +22,17 @@ export type TUser = {
 };
 
 export type TUserClient = {
+    user_id: number;
     name: string;
     surname: string;
     telephone: string;
     login: string;
     role: "admin" | "vendor" | "customer" | "notAuthorized";
+};
+
+export type TOrder = {
+    userId: number;
+    petId: number;
 };
 
 export type TPet = {

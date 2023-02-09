@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Card } from "./card/card";
 import styles from "./cards-list.module.css";
-import { TPet } from "../../../types/types";
+import { TPet } from "../../types/types";
 
 interface CardsListProps {
     pets: TPet[];

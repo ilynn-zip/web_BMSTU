@@ -32,7 +32,6 @@ const Filter: FC<FilterProps> = ({}) => {
     const onFormSubmit: FormEventHandler = (e) => {
         e.preventDefault();
         const res = filterPets(pets);
-        console.log(res);
         boundPets.setFilteredPets(res);
     };
 
@@ -48,7 +47,14 @@ const Filter: FC<FilterProps> = ({}) => {
                 "#shopAddress"
             ) as HTMLSelectElement;
 
-            let result: TPet[] = [...list];
+            let result: TPet[] = list.filter((pet) => {
+                if (pet.available === "yes") {
+                    return pet;
+                }
+            });
+
+            console.log(result);
+
             let petType = petTypeSelect.value;
             let petGender = petGenderSelect.value;
             let shopAddress = shopAddressSelect.value;
@@ -63,7 +69,6 @@ const Filter: FC<FilterProps> = ({}) => {
 
             if (shopAddress !== "Any") {
                 const selectedShop = shops.find((shop) => {
-                    console.log(`${shop.adress} === ${shopAddress} ?`);
                     if (shop.adress === shopAddress) return shop;
                 }) as TShop;
 
@@ -71,7 +76,6 @@ const Filter: FC<FilterProps> = ({}) => {
                     if (pet.shop_id === selectedShop.Shop_id) return pet;
                 });
             }
-
             result = result.filter(
                 (pet) =>
                     pet.price >= values.priceFrom && pet.price <= values.priceTo

@@ -7,6 +7,7 @@ export type TUserState = {
 
 const initialState: TUserState = {
     user: {
+        user_id: 0,
         login: "",
         name: "",
         surname: "",
@@ -30,6 +31,7 @@ export const userReducer = (state = initialState, action: TUserAction) => {
             return {
                 ...state,
                 user: {
+                    user_id: 0,
                     login: "",
                     name: "",
                     surname: "",
