@@ -48,6 +48,21 @@ class customerController {
         return response.json(answer);
     }
 
+    async refuseOrder(request, response) {
+        let answer;
+        try {
+            console.log("refuseOrder");
+            console.log(request.body);
+            await dbOrders.deleteOrderByNumber(request.body.order_number);
+            await dbPets.changePetAvailability(request.body.pet_id, "yes");
+
+            answer = serverAnswer(true, "Order Refused", {});
+        } catch (error) {
+            answer = serverAnswer(false, `${error}`, {});
+        }
+        return response.json(answer);
+    }
+
     async getCustomerOrders(request, response) {
         let answer;
         let result = [];

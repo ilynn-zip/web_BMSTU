@@ -30,22 +30,18 @@ const AdminMenuPage: FC<AdminMenuPageProps> = ({}) => {
             },
         },
     ];
-    const testIcons = [
-        <CancelIcon
-            color='#CD2727'
-            size='50'
-            onClick={() => {
-                console.log("cancel");
-            }}
-        />,
-        <EditIcon
-            color='#000'
-            size='50'
-            onClick={() => {
-                console.log("cancel");
-            }}
-        />,
-    ];
+    const testIcons = {
+        icon: (
+            <CancelIcon
+                color='#CD2727'
+                size='50'
+                onClick={() => {
+                    console.log("cancel");
+                }}
+            />
+        ),
+        onClickFns: [],
+    };
 
     const tableData = {
         head: testHead,

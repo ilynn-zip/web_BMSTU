@@ -1,14 +1,16 @@
-import { TPet } from "../../../types/types";
+import { TPet, TShop } from "../../../types/types";
 import { TPetsAction } from "../../actions/pets";
 
 export type TPetsState = {
     pets: TPet[];
     filteredPets: TPet[];
+    shops: TShop[];
 };
 
 const initialState: TPetsState = {
     pets: [],
     filteredPets: [],
+    shops: [],
 };
 
 export const petsReducer = (state = initialState, action: TPetsAction) => {
@@ -22,6 +24,11 @@ export const petsReducer = (state = initialState, action: TPetsAction) => {
             return {
                 ...state,
                 filteredPets: [...action.payload],
+            };
+        case "SET_SHOPS":
+            return {
+                ...state,
+                shops: [...action.payload],
             };
 
         default:

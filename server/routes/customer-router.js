@@ -6,6 +6,7 @@ router.get("/getPets", customerController.getPets);
 router.get("/getShops", customerController.getShops);
 
 router.post("/createOrder", customerController.createOrder);
+router.post("/refuseOrder", customerController.refuseOrder);
 router.post("/getCustomerOrders", customerController.getCustomerOrders);
 
 module.exports = router;

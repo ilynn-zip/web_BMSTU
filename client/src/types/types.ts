@@ -10,7 +10,7 @@ export type TTableData = {
     head: string[];
     body: string[][];
     buttons?: Array<{ title: string; onClick: () => void }>;
-    icons?: JSX.Element[];
+    icons?: { icon: JSX.Element; onClickFns: Array<() => void> };
 };
 
 export type TUser = {
@@ -28,6 +28,11 @@ export type TUserClient = {
     telephone: string;
     login: string;
     role: "admin" | "vendor" | "customer" | "notAuthorized";
+};
+
+export type TOrderServer = {
+    pet_id: number;
+    order_number: number;
 };
 
 export type TOrder = {
@@ -48,6 +53,9 @@ export type TPet = {
     reproduce_ability: 0 | 1;
     gender: "Male" | "Female";
     pet_breed: string;
+    shop_address?: string;
+    shop_phone?: string;
+    order_number?: number;
 };
 
 export type TShop = {

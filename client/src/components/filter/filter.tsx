@@ -15,14 +15,13 @@ interface FilterProps {}
 const Filter: FC<FilterProps> = ({}) => {
     const [canSwim, setCanSwim] = useState<0 | 1>(0);
     const [canReproduce, setCanReproduce] = useState<0 | 1>(0);
-    const [shops, setShops] = useState<TShop[]>([]);
 
-    const { pets } = useSelector<TStore, TPetsState>((store) => store.pets);
+    const { pets, shops } = useSelector<TStore, TPetsState>(
+        (store) => store.pets
+    );
 
     useEffect(() => {
-        getShops().then((data) => {
-            setShops(data);
-        });
+        getShops();
     }, []);
 
     const { values, handleChange } = useForm({

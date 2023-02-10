@@ -1,34 +1,25 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import styles from "./customer-orders.module.css";
 import { MyTable } from "../../ui/table/mytable";
-import { TOrder, TStore, TTableData } from "../../../types/types";
-import { getCustomerOrders } from "../../../utils/customer-api";
+import { TOrderServer, TPet, TStore, TTableData } from "../../../types/types";
+import {
+    getCustomerOrders,
+    getPets,
+    refuseOrder,
+} from "../../../utils/customer-api";
 import { TUserState } from "../../../services/reducers/user/user";
 import { useSelector } from "react-redux";
 import { TPetsState } from "../../../services/reducers/pets/pets";
+import { CancelIcon } from "../../ui/icons/icons";
 interface CustomerOrdersProps {}
 
 const CustomerOrders: FC<CustomerOrdersProps> = ({}) => {
     const { user } = useSelector<TStore, TUserState>((store) => store.user);
-    const { pets } = useSelector<TStore, TPetsState>((store) => store.pets);
-    const [orders, setOrders] = useState<TOrder[]>([]);
-
-    useEffect(() => {
-        getCustomerOrders(user.user_id).then((data) => {
-            setOrders(data);
-        });
-    }, []);
-    console.log(orders);
-    const orderedPets = orders.map((order) => {
-        let orderedPet = pets.find((pet) => {
-            if (pet.pet_id === order.petId) return pet;
-        });
-        console.log(orderedPet);
-        return orderedPet;
-    });
-    console.log(orderedPets);
-
-    const tableData: TTableData = {
+    const { pets, shops } = useSelector<TStore, TPetsState>(
+        (store) => store.pets
+    );
+    const [isOrderDeleted, setisOrderDeleted] = useState(false);
+    const [tableData, setTableData] = useState<TTableData>({
         head: [
             "Номер Заказа",
             "Вид питомца",
@@ -38,7 +29,68 @@ const CustomerOrders: FC<CustomerOrdersProps> = ({}) => {
             "Адрес Магазина",
         ],
         body: [],
+        icons: { icon: <CancelIcon color='red' size='50' />, onClickFns: [] },
+    });
+
+    //TODO сделать так чтобы при нажатии на отмену заказа, таблица на ходу обновлялась и строка пропадала
+    const refuseCustomerOrder = useCallback(
+        (pet_id: number, order_number: number) => {
+            refuseOrder({ pet_id, order_number });
+            getPets();
+            setisOrderDeleted(!isOrderDeleted);
+            getTableData();
+        },
+        [isOrderDeleted, tableData, pets]
+    );
+
+    const getTableData = () => {
+        getCustomerOrders(user.user_id).then((data: TOrderServer[]) => {
+            const filteredPets = pets.filter((pet) => pet.available === "no");
+            const orderedPets = data.map((order) => {
+                let orderedPet = filteredPets.find((pet) => {
+                    if (pet.pet_id === order.pet_id) {
+                        pet.order_number = order.order_number;
+                        return pet;
+                    }
+                });
+                return orderedPet;
+            }) as TPet[];
+
+            orderedPets.forEach((pet) => {
+                shops.find((shop) => {
+                    if (shop.Shop_id === pet.shop_id) {
+                        pet.shop_phone = shop.telephone;
+                        pet.shop_address = shop.adress;
+                    }
+                });
+            });
+
+            const newBody = orderedPets.map((pet) => {
+                if (tableData.icons) {
+                    tableData.icons.onClickFns.push(() => {
+                        if (pet.order_number) {
+                            refuseCustomerOrder(pet.pet_id, pet.order_number);
+                        } else console.log("that order doesnt exist!");
+                    });
+                }
+                return [
+                    pet.order_number ? pet.order_number.toString() : "-",
+                    pet.pet_type,
+                    pet.age.toString(),
+                    pet.shop_phone ? pet.shop_phone : "-",
+                    pet.price.toString(),
+                    pet.shop_address ? pet.shop_address : "-",
+                ];
+            });
+
+            setTableData({ ...tableData, body: newBody });
+        });
     };
+
+    useEffect(() => {
+        getTableData();
+    }, []);
+
     return (
         <div>
             <MyTable skin='secondary' tableData={tableData} />

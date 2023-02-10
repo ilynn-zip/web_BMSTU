@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import styles from "./app.module.css";
 import { MyHeader } from "../header/myheader";
 import { MyFooter } from "../footer/myfooter";
@@ -10,8 +10,14 @@ import { CustomerMenuPage } from "../../pages/customer/customer-page";
 import { AdminMenuPage } from "../../pages/admin/admin-page";
 import { HomePage } from "../../pages/home/home-page";
 import ProtectedRoute from "../protected-route/protected-route";
+import { getPets, getShops } from "../../utils/customer-api";
 
 const App: FC = () => {
+    useEffect(() => {
+        getPets();
+        getShops();
+    }, []);
+
     return (
         <div className={styles.app}>
             <MyHeader />

@@ -51,7 +51,7 @@ class OrdersMySQLRep extends MySQLRep {
 
     async deleteOrderByNumber(number) {
         this.start();
-
+        console.log(number);
         return this.connection
             .execute(`Delete from orders where order_number = ${number}`)
             .then((res) => {
@@ -59,6 +59,7 @@ class OrdersMySQLRep extends MySQLRep {
             })
             .then((data) => {
                 this.stop();
+                console.log("done");
                 return data;
             });
     }
