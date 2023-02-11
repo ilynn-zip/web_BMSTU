@@ -51,8 +51,8 @@ class PetMySQLRep extends MySQLRep {
         return this.connection
             .execute(
                 `Insert into pet_info (pet_id, pet_type, name, age, color, can_swim, reproduce_ability, gender, 
-                pet_breed) values (${payload.pet_id}, ${payload.pet_type}, ${payload.name}, ${payload.age},
-                ${payload.color}, ${payload.can_swim}, ${payload.reproduce_ability}, ${payload.gender}, ${payload.pet_breed}) `
+                pet_breed) values (${payload.pet_id}, \'${payload.pet_type}\', \'${payload.name}\', ${payload.age},
+                \'${payload.color}\', ${payload.can_swim}, ${payload.reproduce_ability}, \'${payload.gender}\', \'${payload.pet_breed}\') `
             )
             .then((res) => {
                 return res[0];

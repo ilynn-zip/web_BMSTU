@@ -1,9 +1,11 @@
+import { TPetCreatorState } from "../services/reducers/pet-creator/pet-creator";
 import { TPetsState } from "../services/reducers/pets/pets";
 import { TUserState } from "../services/reducers/user/user";
 
 export type TStore = {
     user: TUserState;
     pets: TPetsState;
+    petCreator: TPetCreatorState;
 };
 
 export type TTableData = {
@@ -40,18 +42,22 @@ export type TOrder = {
     petId: number;
 };
 
+export type TPetType = "Cat" | "Dog" | "Hedgehog" | "Raccoon" | "Fox";
+export type TPetAvailability = "yes" | "no";
+export type TPetGender = "Male" | "Female";
+
 export type TPet = {
     pet_id: number;
     shop_id: number;
     price: number;
-    available: "yes" | "no";
-    pet_type: "Cat" | "Dog" | "Hedgehog" | "Raccoon" | "Fox";
+    available: TPetAvailability;
+    pet_type: TPetType;
     name: string;
     age: number;
     color: string;
     can_swim: 0 | 1;
     reproduce_ability: 0 | 1;
-    gender: "Male" | "Female";
+    gender: TPetGender;
     pet_breed: string;
     shop_address?: string;
     shop_phone?: string;

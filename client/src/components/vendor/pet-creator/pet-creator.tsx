@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC } from "react";
 import styles from "./pet-creator.module.css";
 import { MyInput } from "../../ui/input/myinput";
 import { MyDropMenu } from "../../ui/drop-menu/mydrop-menu";
@@ -6,46 +6,68 @@ import { MyCheckbox } from "../../ui/check-box/mycheckbox";
 import { MyButton } from "../../ui/button/mybutton";
 import { useSelector } from "react-redux";
 import { TPetsState } from "../../../services/reducers/pets/pets";
-import { TStore } from "../../../types/types";
+import { TShop, TStore } from "../../../types/types";
+import { TPetCreatorState } from "../../../services/reducers/pet-creator/pet-creator";
+import { boundPetCreator } from "../../../services/actions/pet-creator";
+import { createPet } from "../../../utils/vendor-api";
 interface PetsCreatorProps {}
 
-const PetsCreator: FC<PetsCreatorProps> = ({}) => {
-    const { pets, shops } = useSelector<TStore, TPetsState>(
-        (store) => store.pets
+//TODO          содержимое формы должно записываться в localstorege при размонтировании и доставаться
+//              из него при монтировании
+const PetsCreator: FC<PetsCreatorProps> = () => {
+    const { shops } = useSelector<TStore, TPetsState>((store) => store.pets);
+    const { pet } = useSelector<TStore, TPetCreatorState>(
+        (store) => store.petCreator
     );
-    const [canSwim, setCanSwim] = useState<0 | 1>(0);
-    const [canReproduce, setCanReproduce] = useState<0 | 1>(0);
+
+    const handleSubmit: React.FormEventHandler = (e) => {
+        e.preventDefault();
+        createPet({ ...pet });
+    };
+
+    const setShopId = (selected: any) => {
+        const newShop = shops.find((shop) => shop.adress === selected) as TShop;
+        boundPetCreator.setPetShopId(newShop.Shop_id);
+    };
+
     return (
-        <form className={styles.petsCreatorWrapper}>
+        <form onSubmit={handleSubmit} className={styles.petsCreatorWrapper}>
             <div className={styles.leftContent}>
                 <span>Создание питомца</span>
                 <MyDropMenu
                     id='petType'
                     options={["Cat", "Dog", "Hedgehog", "Raccoon", "Fox"]}
                     title='Вид'
+                    changeHandler={boundPetCreator.setPetType}
                 />
                 <MyDropMenu
                     id='petGender'
                     options={["Male", "Female"]}
                     title='Пол'
+                    changeHandler={boundPetCreator.setPetGender}
                 />
                 <MyDropMenu
                     id='shopAddress'
                     options={[...shops.map((shop) => shop.adress)]}
                     title='Магазины'
+                    changeHandler={setShopId}
                 />
                 <MyCheckbox
                     text='Способность плавать'
-                    checked={canSwim === 0 ? false : true}
+                    checked={pet.can_swim === 0 ? false : true}
                     setChecked={() => {
-                        setCanSwim(canSwim === 0 ? 1 : 0);
+                        boundPetCreator.setPetCanSwin(
+                            pet.can_swim === 0 ? 1 : 0
+                        );
                     }}
                 />
                 <MyCheckbox
                     text='Способность плодиться'
-                    checked={canReproduce === 0 ? false : true}
+                    checked={pet.reproduce_ability === 0 ? false : true}
                     setChecked={() => {
-                        setCanReproduce(canReproduce === 0 ? 1 : 0);
+                        boundPetCreator.setPetCanReproduce(
+                            pet.reproduce_ability === 0 ? 1 : 0
+                        );
                     }}
                 />
                 <MyButton type='submit' skin='primary'>
@@ -54,24 +76,56 @@ const PetsCreator: FC<PetsCreatorProps> = ({}) => {
             </div>
             <div className={styles.rightContent}>
                 <>
-                    <p>Порода питомца</p>
-                    <MyInput placeholder='Введите породу' />
+                    <p>Имя питомца</p>
+                    <MyInput
+                        value={pet.name}
+                        onChange={(e) => {
+                            boundPetCreator.setPetName(e.target.value);
+                        }}
+                        placeholder='Введите породу'
+                    />
                 </>
                 <>
-                    <p>Цена питомца</p>
-                    <MyInput type='number' placeholder='Введите текст' />
+                    <p>Порода питомца</p>
+                    <MyInput
+                        value={pet.pet_breed}
+                        onChange={(e) => {
+                            boundPetCreator.setPetBreed(e.target.value);
+                        }}
+                        placeholder='Введите текст'
+                    />
                 </>
                 <div>
-                    <p>Имя питомца</p>
-                    <MyInput placeholder='Введите текст' />
+                    <p>Возраст питомца</p>
+                    <MyInput
+                        value={pet.age}
+                        onChange={(e) => {
+                            boundPetCreator.setPetAge(+e.target.value);
+                        }}
+                        type='number'
+                        placeholder='Введите текст'
+                    />
                 </div>
                 <div>
-                    <p>Имя питомца</p>
-                    <MyInput placeholder='Введите текст' />
+                    <p>Цвет питомца</p>
+                    <MyInput
+                        value={pet.color}
+                        onChange={(e) => {
+                            boundPetCreator.setPetColor(e.target.value);
+                        }}
+                        placeholder='Введите текст'
+                    />
                 </div>
                 <div>
-                    <p>Имя питомца</p>
-                    <MyInput placeholder='Введите текст' />
+                    <p>Цена питомца</p>
+                    <MyInput
+                        value={pet.price}
+                        onChange={(e) => {
+                            boundPetCreator.setPetPrice(+e.target.value);
+                        }}
+                        type='number'
+                        placeholder='Введите текст'
+                    />
                 </div>
             </div>
         </form>
