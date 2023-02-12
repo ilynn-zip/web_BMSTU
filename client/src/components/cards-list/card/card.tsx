@@ -7,6 +7,7 @@ import { createOrder, getPets } from "../../../utils/customer-api";
 import { TUserState } from "../../../services/reducers/user/user";
 import { useSelector } from "react-redux";
 import { boundPets } from "../../../services/actions/pets";
+import { TPetsState } from "../../../services/reducers/pets/pets";
 
 interface CardProps {
     pet: TPet;
@@ -18,6 +19,7 @@ const Card: FC<CardProps> = ({ pet }) => {
         createOrder({ userId: user.user_id, petId: pet.pet_id }).then(() => {
             getPets().then((data: TPet[]) => {
                 boundPets.setPets(data);
+                //TODO      сюда нужно будет передвать filteredpets только без того элемента который был заказан
                 boundPets.setFilteredPets(
                     data.filter((pet) => pet.available === "yes")
                 );
