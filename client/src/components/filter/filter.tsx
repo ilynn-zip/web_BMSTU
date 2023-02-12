@@ -20,10 +20,6 @@ const Filter: FC<FilterProps> = ({}) => {
         (store) => store.pets
     );
 
-    useEffect(() => {
-        getShops();
-    }, []);
-
     const { values, handleChange } = useForm({
         priceFrom: "0",
         priceTo: "1000",

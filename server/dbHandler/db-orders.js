@@ -49,6 +49,28 @@ class OrdersMySQLRep extends MySQLRep {
             });
     }
 
+    async getOrderedPetsFromShop(shop_id) {
+        this.start();
+
+        return this.connection
+            .execute(
+                `SELECT order_number, user_id, t1.pet_id, price, available 
+                FROM 
+                    (SELECT * FROM orders) t1 
+                JOIN 
+                    (SELECT * FROM pets) t2 
+                ON t1.pet_id = t2.pet_id 
+                WHERE shop_id =${shop_id}; `
+            )
+            .then((res) => {
+                return res[0];
+            })
+            .then((data) => {
+                this.stop();
+                return data;
+            });
+    }
+
     async deleteOrderByNumber(number) {
         this.start();
         console.log(number);

@@ -11,9 +11,18 @@ export type TStore = {
 export type TTableData = {
     head: string[];
     body: string[][];
-    buttons?: Array<{ title: string; onClick: () => void }>;
-    icons?: { icon: JSX.Element; onClickFns: Array<() => void> };
+    buttons?: Array<TTableButton>;
+    icons?: Array<TTableIcon>;
 };
+
+export type TTableButton = {
+    title: string;
+    onClickFns: Array<() => void>;
+};
+
+export type TTableIcon = { icon: JSX.Element; onClickFns: Array<() => void> };
+
+export type TPetCreatorMode = "Create" | "Update";
 
 export type TUser = {
     name: string;
@@ -30,6 +39,7 @@ export type TUserClient = {
     telephone: string;
     login: string;
     role: "admin" | "vendor" | "customer" | "notAuthorized";
+    address: string;
 };
 
 export type TOrderServer = {

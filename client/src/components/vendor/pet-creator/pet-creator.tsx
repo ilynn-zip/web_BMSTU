@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import styles from "./pet-creator.module.css";
 import { MyInput } from "../../ui/input/myinput";
 import { MyDropMenu } from "../../ui/drop-menu/mydrop-menu";
@@ -9,47 +9,70 @@ import { TPetsState } from "../../../services/reducers/pets/pets";
 import { TShop, TStore } from "../../../types/types";
 import { TPetCreatorState } from "../../../services/reducers/pet-creator/pet-creator";
 import { boundPetCreator } from "../../../services/actions/pet-creator";
-import { createPet } from "../../../utils/vendor-api";
+import { createPet, updatePet } from "../../../utils/vendor-api";
 interface PetsCreatorProps {}
 
-//TODO          содержимое формы должно записываться в localstorege при размонтировании и доставаться
-//              из него при монтировании
+//TODO сделать так чтобы можно было заполнить форму при обновлении
 const PetsCreator: FC<PetsCreatorProps> = () => {
     const { shops } = useSelector<TStore, TPetsState>((store) => store.pets);
-    const { pet } = useSelector<TStore, TPetCreatorState>(
+    const { pet, mode } = useSelector<TStore, TPetCreatorState>(
         (store) => store.petCreator
     );
 
+    useEffect(() => {
+        let savedForm = localStorage.getItem("petCreationForm");
+
+        if (savedForm) {
+            boundPetCreator.setPet(JSON.parse(savedForm));
+        }
+    }, []);
+
+    useEffect(() => {
+        localStorage.setItem("petCreationForm", JSON.stringify(pet));
+    }, [pet]);
+
     const handleSubmit: React.FormEventHandler = (e) => {
         e.preventDefault();
-        createPet({ ...pet });
+        if (mode === "Create") {
+            createPet({ ...pet });
+        } else {
+            updatePet({ ...pet });
+        }
     };
 
     const setShopId = (selected: any) => {
         const newShop = shops.find((shop) => shop.adress === selected) as TShop;
+
         boundPetCreator.setPetShopId(newShop.Shop_id);
     };
 
     return (
         <form onSubmit={handleSubmit} className={styles.petsCreatorWrapper}>
             <div className={styles.leftContent}>
-                <span>Создание питомца</span>
+                <span>
+                    {mode === "Create"
+                        ? "Создание питомца"
+                        : "Обновление питомца"}
+                </span>
                 <MyDropMenu
                     id='petType'
                     options={["Cat", "Dog", "Hedgehog", "Raccoon", "Fox"]}
                     title='Вид'
+                    value={pet.pet_type}
                     changeHandler={boundPetCreator.setPetType}
                 />
                 <MyDropMenu
                     id='petGender'
                     options={["Male", "Female"]}
                     title='Пол'
+                    value={pet.gender}
                     changeHandler={boundPetCreator.setPetGender}
                 />
                 <MyDropMenu
                     id='shopAddress'
                     options={[...shops.map((shop) => shop.adress)]}
                     title='Магазины'
+                    value={pet.shop_address}
                     changeHandler={setShopId}
                 />
                 <MyCheckbox

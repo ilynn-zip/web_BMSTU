@@ -2,6 +2,7 @@ import { FC } from "react";
 import { Link } from "react-router-dom";
 import { MyButton } from "../../ui/button/mybutton";
 import styles from "./navigation.module.css";
+import { boundPetCreator } from "../../../services/actions/pet-creator";
 
 interface NavigationProps {}
 
@@ -14,7 +15,7 @@ const Navigation: FC<NavigationProps> = ({}) => {
                 </Link>
             </MyButton>
             <MyButton skin='secondary'>
-                <Link className={styles.myLink} to='/vendor/petsCreation'>
+                <Link onClick={() => {boundPetCreator.setPetCreatorMode("Create")}} className={styles.myLink} to='/vendor/petsCreation'>
                     Добавить питомца
                 </Link>
             </MyButton>

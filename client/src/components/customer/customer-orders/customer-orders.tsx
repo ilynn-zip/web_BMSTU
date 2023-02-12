@@ -1,7 +1,13 @@
 import { FC, useCallback, useEffect, useState } from "react";
 import styles from "./customer-orders.module.css";
 import { MyTable } from "../../ui/table/mytable";
-import { TOrderServer, TPet, TStore, TTableData } from "../../../types/types";
+import {
+    TOrderServer,
+    TPet,
+    TStore,
+    TTableData,
+    TTableIcon,
+} from "../../../types/types";
 import {
     getCustomerOrders,
     getPets,
@@ -18,7 +24,7 @@ const CustomerOrders: FC<CustomerOrdersProps> = ({}) => {
     const { pets, shops } = useSelector<TStore, TPetsState>(
         (store) => store.pets
     );
-    const [isOrderDeleted, setisOrderDeleted] = useState(false);
+    const [isOrderDeleted, setisOrderDeleted] = useState<boolean>(false);
     const [tableData, setTableData] = useState<TTableData>({
         head: [
             "Номер Заказа",
@@ -29,24 +35,18 @@ const CustomerOrders: FC<CustomerOrdersProps> = ({}) => {
             "Адрес Магазина",
         ],
         body: [],
-        icons: { icon: <CancelIcon color='red' size='50' />, onClickFns: [] },
+        icons: [{ icon: <CancelIcon color='red' size='50' />, onClickFns: [] }],
     });
-
+    useEffect(() => {
+        getTableData();
+    }, []);
     //TODO сделать так чтобы при нажатии на отмену заказа, таблица на ходу обновлялась и строка пропадала
-    const refuseCustomerOrder = useCallback(
-        (pet_id: number, order_number: number) => {
-            refuseOrder({ pet_id, order_number });
-            getPets();
-            setisOrderDeleted(!isOrderDeleted);
-            getTableData();
-        },
-        [isOrderDeleted, tableData, pets]
-    );
 
     const getTableData = () => {
         getCustomerOrders(user.user_id).then((data: TOrderServer[]) => {
             const filteredPets = pets.filter((pet) => pet.available === "no");
-            const orderedPets = data.map((order) => {
+
+            let orderedPets = data.map((order) => {
                 let orderedPet = filteredPets.find((pet) => {
                     if (pet.pet_id === order.pet_id) {
                         pet.order_number = order.order_number;
@@ -55,6 +55,9 @@ const CustomerOrders: FC<CustomerOrdersProps> = ({}) => {
                 });
                 return orderedPet;
             }) as TPet[];
+
+            orderedPets = orderedPets.filter((pet) => pet !== undefined);
+            console.log(orderedPets);
 
             orderedPets.forEach((pet) => {
                 shops.find((shop) => {
@@ -65,12 +68,18 @@ const CustomerOrders: FC<CustomerOrdersProps> = ({}) => {
                 });
             });
 
-            const newBody = orderedPets.map((pet) => {
+            let newIcons: TTableIcon[] = [];
+            if (tableData.icons) {
+                newIcons = [...tableData.icons];
+            }
+
+            const newBody = orderedPets.map((pet, index) => {
                 if (tableData.icons) {
-                    tableData.icons.onClickFns.push(() => {
-                        if (pet.order_number) {
-                            refuseCustomerOrder(pet.pet_id, pet.order_number);
-                        } else console.log("that order doesnt exist!");
+                    newIcons[0].onClickFns.push(() => {
+                        refuseOrder({
+                            pet_id: pet.pet_id,
+                            order_number: pet.order_number as number,
+                        });
                     });
                 }
                 return [
@@ -83,13 +92,13 @@ const CustomerOrders: FC<CustomerOrdersProps> = ({}) => {
                 ];
             });
 
-            setTableData({ ...tableData, body: newBody });
+            setTableData({
+                ...tableData,
+                body: [...newBody],
+                icons: [...newIcons],
+            });
         });
     };
-
-    useEffect(() => {
-        getTableData();
-    }, []);
 
     return (
         <div>

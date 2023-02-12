@@ -38,6 +38,7 @@ const Profile: FC<ProfileProps> = ({}) => {
                 </MyButton>
                 <MyButton
                     onClick={() => {
+                        localStorage.removeItem("token");
                         boundUser.logout();
                     }}
                     skin='secondary'

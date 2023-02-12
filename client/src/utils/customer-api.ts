@@ -29,11 +29,13 @@ export const getShops = async () => {
 };
 
 export const getCustomerOrders = async (user_id: number) => {
+    const token = localStorage.getItem("token");
     return await fetch(`${CUSTOMER_API_URL}/getCustomerOrders`, {
         method: "post",
         headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ user_id }),
     })

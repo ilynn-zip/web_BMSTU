@@ -10,11 +10,53 @@ export const getUsers = () => {
         })
         .then((answer: TAnswer) => {
             if (answer.success) {
-                return answer.payload;
+                boundUser.setUsers(answer.payload);
             } else return Promise.reject(answer.payload);
         });
 };
 
+export const deleteUser = (id: number) => {
+    return fetch(`${USER_API_URL}/deleteUser`, {
+        method: "post",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+    })
+        .then((res) => {
+            return res.json();
+        })
+        .then((answer: TAnswer) => {
+            if (answer.success) {
+                alert(answer.message);
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
+export const changeRole = (id: number, role: string, address: string) => {
+    return fetch(`${USER_API_URL}/changeRole`, {
+        method: "post",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id, role, address }),
+    })
+        .then((res) => {
+            return res.json();
+        })
+        .then((answer: TAnswer) => {
+            if (answer.success) {
+                alert(answer.message);
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
 export const register = (user: TUser) => {
     return fetch(`${USER_API_URL}/register`, {
         method: "post",
@@ -49,6 +91,8 @@ export const auth = (authData: TAuthData) => {
         })
         .then((answer: TAnswer) => {
             if (answer.success) {
+                console.log(answer.payload);
+                localStorage.setItem("token", answer.payload.token);
                 boundUser.setUser(answer.payload);
             }
             alert(answer.message);

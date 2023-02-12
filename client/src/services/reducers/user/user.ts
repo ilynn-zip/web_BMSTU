@@ -3,6 +3,7 @@ import { TUserAction } from "../../actions/user";
 
 export type TUserState = {
     user: TUserClient;
+    users: TUserClient[];
 };
 
 const initialState: TUserState = {
@@ -13,7 +14,9 @@ const initialState: TUserState = {
         surname: "",
         telephone: "",
         role: "notAuthorized",
+        address: "null",
     },
+    users: [],
 };
 
 export const userReducer = (state = initialState, action: TUserAction) => {
@@ -26,6 +29,11 @@ export const userReducer = (state = initialState, action: TUserAction) => {
             return {
                 ...state,
                 user: { ...action.payload },
+            };
+        case "SET_USERS":
+            return {
+                ...state,
+                users: [...action.payload],
             };
         case "LOGOUT":
             return {

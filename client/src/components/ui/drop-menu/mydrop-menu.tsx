@@ -6,6 +6,7 @@ interface MyDropMenuProps {
     options?: string[];
     title?: string;
     changeHandler?: (selected: any) => void;
+    value?: string | number | readonly string[];
 }
 
 const MyDropMenu: FC<MyDropMenuProps> = ({
@@ -13,11 +14,13 @@ const MyDropMenu: FC<MyDropMenuProps> = ({
     options = ["test", "test", "test"],
     title = "Заголовок",
     changeHandler,
+    value,
 }) => {
     return (
         <div className={styles.mySelectWrapper}>
             <p className={styles.mySelectTitle}>{title}</p>
             <select
+                value={value}
                 onChange={(e) => {
                     if (changeHandler) changeHandler(e.target.value);
                 }}

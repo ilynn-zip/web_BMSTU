@@ -11,11 +11,15 @@ import { AdminMenuPage } from "../../pages/admin/admin-page";
 import { HomePage } from "../../pages/home/home-page";
 import ProtectedRoute from "../protected-route/protected-route";
 import { getPets, getShops } from "../../utils/customer-api";
+import { getUsers } from "../../utils/user-api";
 
 const App: FC = () => {
     useEffect(() => {
-        getPets();
-        getShops();
+        getPets().then(() => {
+            getShops().then(() => {
+                getUsers();
+            });
+        });
     }, []);
 
     return (

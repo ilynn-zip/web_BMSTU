@@ -14,6 +14,40 @@ class PetMySQLRep extends MySQLRep {
                 return data;
             });
     }
+    async updatePet(payload) {
+        this.start();
+
+        return this.connection
+            .execute(
+                `UPDATE pets SET shop_id=${payload.shop_id},price=${payload.price} WHERE pet_id =${payload.pet_id}  `
+            )
+            .then((res) => {
+                return res[0];
+            })
+            .then((data) => {
+                this.stop();
+                return data;
+            });
+    }
+    async updatePetInfo(payload) {
+        this.start();
+
+        return this.connection
+            .execute(
+                `UPDATE 
+                    pet_info 
+                SET pet_type=\'${payload.pet_type}\', name=\'${payload.name}\', age=${payload.age}, color=\'${payload.color}\',
+                can_swim=${payload.can_swim},reproduce_ability=${payload.reproduce_ability},
+                gender=\'${payload.gender}\',pet_breed=\'${payload.pet_breed}\' WHERE pet_id =${payload.pet_id}  `
+            )
+            .then((res) => {
+                return res[0];
+            })
+            .then((data) => {
+                this.stop();
+                return data;
+            });
+    }
 
     async getPetsWithInfo() {
         this.start();
@@ -36,6 +70,19 @@ class PetMySQLRep extends MySQLRep {
 
         return this.connection
             .execute("SELECT * FROM `pets`")
+            .then((res) => {
+                return res[0];
+            })
+            .then((data) => {
+                this.stop();
+                return data;
+            });
+    }
+    async getShopPets(shop_id) {
+        this.start();
+
+        return this.connection
+            .execute(`SELECT * FROM pets WHERE shop_id = ${shop_id}`)
             .then((res) => {
                 return res[0];
             })

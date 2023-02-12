@@ -1,25 +1,15 @@
-import { TPet } from "../../../types/types";
+import { TPet, TPetCreatorMode } from "../../../types/types";
 import { TPetCreatorActions } from "../../actions/pet-creator";
 
 export type TPetCreatorState = {
     pet: TPet;
+    mode: TPetCreatorMode;
 };
+const savedPet = JSON.parse(localStorage.getItem("petCreationForm") as string);
 
 const initialState: TPetCreatorState = {
-    pet: {
-        gender: "Male",
-        pet_breed: "pet_breed",
-        pet_id: -1,
-        pet_type: "Cat",
-        price: 300,
-        can_swim: 0,
-        color: "black",
-        reproduce_ability: 0,
-        shop_id: 1,
-        age: 2,
-        available: "yes",
-        name: "pet_name",
-    },
+    pet: { ...savedPet },
+    mode: "Create",
 };
 
 export const petCreatorReducer = (
@@ -31,6 +21,11 @@ export const petCreatorReducer = (
             return {
                 ...state,
                 pet: { ...action.payload },
+            };
+        case "SET_PET_CREATOR_MODE":
+            return {
+                ...state,
+                mode: action.payload,
             };
         case "SET_PET_AGE":
             return {

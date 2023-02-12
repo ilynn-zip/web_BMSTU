@@ -1,6 +1,8 @@
 .myTableWrapper {
+    display: flex;
+    justify-content: center;
     padding: 10px;
-    max-width: 1411px;
+    min-width: 1411px;
     max-height: 590px;
     overflow: scroll;
     border-radius: 15px 15px 0 0;
@@ -30,7 +32,7 @@
 .myTbody tr td {
     border-bottom: 2px solid black;
     padding: 20px;
-    word-break: break-all;
+    word-break: normal;
 
     max-width: 250px;
 }

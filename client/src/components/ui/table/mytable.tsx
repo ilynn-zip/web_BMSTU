@@ -27,7 +27,13 @@ const MyTable: FC<MyTableProps> = ({ skin = "secondary", tableData }) => {
                         ) : (
                             <></>
                         )}
-                        {tableData.icons ? <th></th> : <></>}
+                        {tableData.icons ? (
+                            tableData.icons.map(() => {
+                                return <th></th>;
+                            })
+                        ) : (
+                            <></>
+                        )}
                     </tr>
                 </thead>
                 <tbody
@@ -42,7 +48,7 @@ const MyTable: FC<MyTableProps> = ({ skin = "secondary", tableData }) => {
                                     return <td>{cell}</td>;
                                 })}
                                 {tableData.buttons ? (
-                                    tableData.buttons.map((el) => {
+                                    tableData.buttons.map((button) => {
                                         return (
                                             <td
                                                 className={
@@ -50,9 +56,11 @@ const MyTable: FC<MyTableProps> = ({ skin = "secondary", tableData }) => {
                                                         ? styles.buttonCellBlue
                                                         : styles.buttonCellGreen
                                                 }
-                                                onClick={el.onClick}
+                                                onClick={
+                                                    button.onClickFns[rowIndex]
+                                                }
                                             >
-                                                {el.title}
+                                                {button.title}
                                             </td>
                                         );
                                     })
@@ -60,13 +68,17 @@ const MyTable: FC<MyTableProps> = ({ skin = "secondary", tableData }) => {
                                     <></>
                                 )}
                                 {tableData.icons ? (
-                                    <td
-                                        onClick={
-                                            tableData.icons.onClickFns[rowIndex]
-                                        }
-                                    >
-                                        {tableData.icons.icon}
-                                    </td>
+                                    tableData.icons.map((icon) => {
+                                        return (
+                                            <td
+                                                onClick={
+                                                    icon.onClickFns[rowIndex]
+                                                }
+                                            >
+                                                {icon.icon}
+                                            </td>
+                                        );
+                                    })
                                 ) : (
                                     <></>
                                 )}

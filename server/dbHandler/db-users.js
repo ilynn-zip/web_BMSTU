@@ -34,10 +34,12 @@ class UserMySQLRep extends MySQLRep {
         //кароче тут catch добавить
     }
 
-    async changeRole(id, role) {
+    async changeRole(id, role, address) {
         this.start();
         return this.connection
-            .execute(`Update users set role = '${role}' where user_id = ${id}`)
+            .execute(
+                `UPDATE users SET role='${role}',shop_address='${address}' WHERE user_id=${id};`
+            )
             .then((res) => {
                 return res;
             })

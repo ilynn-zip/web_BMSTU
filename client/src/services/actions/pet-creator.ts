@@ -2,6 +2,7 @@ import { bindActionCreators } from "@reduxjs/toolkit";
 import {
     TPet,
     TPetAvailability,
+    TPetCreatorMode,
     TPetGender,
     TPetType,
 } from "../../types/types";
@@ -18,6 +19,7 @@ import {
     SET_PET_PRICE,
     SET_PET_SHOP_ID,
     SET_PET_TYPE,
+    SET_PET_CREATOR_MODE,
 } from "../action-types/pet-creator";
 import { store } from "../store";
 
@@ -25,6 +27,10 @@ import { store } from "../store";
 export interface ISetPet {
     readonly type: typeof SET_PET;
     readonly payload: TPet;
+}
+export interface ISetPetCreatorMode {
+    readonly type: typeof SET_PET_CREATOR_MODE;
+    readonly payload: TPetCreatorMode;
 }
 export interface ISetPetAge {
     readonly type: typeof SET_PET_AGE;
@@ -73,6 +79,7 @@ export interface ISetPetType {
 
 export type TPetCreatorActions =
     | ISetPet
+    | ISetPetCreatorMode
     | ISetPetAge
     | ISetPetAvailability
     | ISetPetBreed
@@ -90,6 +97,10 @@ export type TPetCreatorActions =
 const doSetPet = (pet: TPet): ISetPet => ({
     type: "SET_PET",
     payload: pet,
+});
+const doSetPetCreatorMode = (mode: TPetCreatorMode): ISetPetCreatorMode => ({
+    type: "SET_PET_CREATOR_MODE",
+    payload: mode,
 });
 const doSetPetAvailability = (
     available: TPetAvailability
@@ -141,6 +152,7 @@ const doSetPetType = (type: TPetType): ISetPetType => ({
 export const boundPetCreator = bindActionCreators(
     {
         setPet: doSetPet,
+        setPetCreatorMode: doSetPetCreatorMode,
         setPetAvailability: doSetPetAvailability,
         setPetAge: doSetPetAge,
         setPetCanSwin: doSetPetCanSwim,
