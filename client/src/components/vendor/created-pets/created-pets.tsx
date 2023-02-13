@@ -1,37 +1,17 @@
 import { FC, useEffect, useState } from "react";
-import styles from "./created-pets.module.css";
 import { useSelector } from "react-redux";
 import { TPetsState } from "../../../services/reducers/pets/pets";
 import { TUserState } from "../../../services/reducers/user/user";
-import {
-    TPet,
-    TStore,
-    TTableData,
-    TTableIcon,
-    TUserClient,
-} from "../../../types/types";
-import { refuseOrder } from "../../../utils/customer-api";
-import {
-    getShopOrders,
-    acceptOrder,
-    getShopPets,
-    deletePet,
-} from "../../../utils/vendor-api";
-import {
-    CancelIcon,
-    ApproveIcon,
-    DeleteIcon,
-    EditIcon,
-} from "../../ui/icons/icons";
+import { TPet, TStore, TTableData, TTableIcon } from "../../../types/types";
+import { getShopPets, deletePet } from "../../../utils/vendor-api";
+import { DeleteIcon, EditIcon } from "../../ui/icons/icons";
 import { MyTable } from "../../ui/table/mytable";
 import { boundPetCreator } from "../../../services/actions/pet-creator";
 import { Redirect } from "react-router";
 interface CreatedPetsProps {}
 
-const CreatedPets: FC<CreatedPetsProps> = ({}) => {
-    const { users, user } = useSelector<TStore, TUserState>(
-        (store) => store.user
-    );
+const CreatedPets: FC<CreatedPetsProps> = () => {
+    const { user } = useSelector<TStore, TUserState>((store) => store.user);
     const { shops, pets } = useSelector<TStore, TPetsState>(
         (store) => store.pets
     );
@@ -54,7 +34,7 @@ const CreatedPets: FC<CreatedPetsProps> = ({}) => {
     useEffect(() => {
         getShopPets(
             {
-                ...shops.find((shop) => shop.adress === user.address),
+                ...shops.find((shop) => shop.adress === user.shop_address),
             }.Shop_id as number
         ).then((data) => {
             let newIcons: TTableIcon[] = [];
@@ -96,7 +76,8 @@ const CreatedPets: FC<CreatedPetsProps> = ({}) => {
                 icons: [...newIcons],
             });
         });
-    }, [users]);
+        // eslint-disable-next-line
+    }, []);
 
     if (toggleRedirect) return <Redirect to={"/vendor/petsCreation"} />;
 

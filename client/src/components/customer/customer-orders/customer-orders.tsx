@@ -1,5 +1,4 @@
-import { FC, useCallback, useEffect, useState } from "react";
-import styles from "./customer-orders.module.css";
+import { FC, useEffect, useState } from "react";
 import { MyTable } from "../../ui/table/mytable";
 import {
     TOrderServer,
@@ -8,23 +7,18 @@ import {
     TTableData,
     TTableIcon,
 } from "../../../types/types";
-import {
-    getCustomerOrders,
-    getPets,
-    refuseOrder,
-} from "../../../utils/customer-api";
+import { getCustomerOrders, refuseOrder } from "../../../utils/customer-api";
 import { TUserState } from "../../../services/reducers/user/user";
 import { useSelector } from "react-redux";
 import { TPetsState } from "../../../services/reducers/pets/pets";
 import { CancelIcon } from "../../ui/icons/icons";
 interface CustomerOrdersProps {}
 
-const CustomerOrders: FC<CustomerOrdersProps> = ({}) => {
+const CustomerOrders: FC<CustomerOrdersProps> = () => {
     const { user } = useSelector<TStore, TUserState>((store) => store.user);
     const { pets, shops } = useSelector<TStore, TPetsState>(
         (store) => store.pets
     );
-    const [isOrderDeleted, setisOrderDeleted] = useState<boolean>(false);
     const [tableData, setTableData] = useState<TTableData>({
         head: [
             "Номер Заказа",
@@ -39,8 +33,8 @@ const CustomerOrders: FC<CustomerOrdersProps> = ({}) => {
     });
     useEffect(() => {
         getTableData();
+        // eslint-disable-next-line
     }, []);
-    //TODO сделать так чтобы при нажатии на отмену заказа, таблица на ходу обновлялась и строка пропадала
 
     const getTableData = () => {
         getCustomerOrders(user.user_id).then((data: TOrderServer[]) => {
@@ -52,6 +46,7 @@ const CustomerOrders: FC<CustomerOrdersProps> = ({}) => {
                         pet.order_number = order.order_number;
                         return pet;
                     }
+                    return undefined;
                 });
                 return orderedPet;
             }) as TPet[];
@@ -65,6 +60,7 @@ const CustomerOrders: FC<CustomerOrdersProps> = ({}) => {
                         pet.shop_phone = shop.telephone;
                         pet.shop_address = shop.adress;
                     }
+                    return undefined;
                 });
             });
 
@@ -87,7 +83,7 @@ const CustomerOrders: FC<CustomerOrdersProps> = ({}) => {
                     pet.pet_type,
                     pet.age.toString(),
                     pet.shop_phone ? pet.shop_phone : "-",
-                    pet.price.toString(),
+                    pet.price.toString() + " $",
                     pet.shop_address ? pet.shop_address : "-",
                 ];
             });

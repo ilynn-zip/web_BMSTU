@@ -1,18 +1,17 @@
-import { FC, FormEventHandler, useCallback, useEffect, useState } from "react";
+import { FC, FormEventHandler, useCallback, useState } from "react";
 import styles from "./filter.module.css";
 import { MyDropMenu } from "../ui/drop-menu/mydrop-menu";
 import { MyCheckbox } from "../ui/check-box/mycheckbox";
 import { MyInput } from "../ui/input/myinput";
 import { MyButton } from "../ui/button/mybutton";
 import { TPet, TShop, TStore } from "../../types/types";
-import { getShops } from "../../utils/customer-api";
 import { useForm } from "../../hooks/useForm";
 import { useSelector } from "react-redux";
 import { TPetsState } from "../../services/reducers/pets/pets";
 import { boundPets } from "../../services/actions/pets";
 interface FilterProps {}
 
-const Filter: FC<FilterProps> = ({}) => {
+const Filter: FC<FilterProps> = () => {
     const [canSwim, setCanSwim] = useState<0 | 1>(0);
     const [canReproduce, setCanReproduce] = useState<0 | 1>(0);
 
@@ -42,13 +41,7 @@ const Filter: FC<FilterProps> = ({}) => {
                 "#shopAddress"
             ) as HTMLSelectElement;
 
-            let result: TPet[] = list.filter((pet) => {
-                if (pet.available === "yes") {
-                    return pet;
-                }
-            });
-
-            console.log(result);
+            let result: TPet[] = list.filter((pet) => pet.available === "yes");
 
             let petType = petTypeSelect.value;
             let petGender = petGenderSelect.value;
@@ -63,13 +56,13 @@ const Filter: FC<FilterProps> = ({}) => {
             }
 
             if (shopAddress !== "Any") {
-                const selectedShop = shops.find((shop) => {
-                    if (shop.adress === shopAddress) return shop;
-                }) as TShop;
+                const selectedShop = shops.find(
+                    (shop) => shop.adress === shopAddress
+                ) as TShop;
 
-                result = result.filter((pet) => {
-                    if (pet.shop_id === selectedShop.Shop_id) return pet;
-                });
+                result = result.filter(
+                    (pet) => pet.shop_id === selectedShop.Shop_id
+                );
             }
             result = result.filter(
                 (pet) =>

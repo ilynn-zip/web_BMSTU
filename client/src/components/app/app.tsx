@@ -11,20 +11,23 @@ import { AdminMenuPage } from "../../pages/admin/admin-page";
 import { HomePage } from "../../pages/home/home-page";
 import ProtectedRoute from "../protected-route/protected-route";
 import { getPets, getShops } from "../../utils/customer-api";
-import { getUsers } from "../../utils/user-api";
+import { authWithToken, getUsers } from "../../utils/user-api";
 
 const App: FC = () => {
-    //TODO      добавить тут проверку наличия токена и сделать эндпоинт, который по токену
-    //          вернет инфу о пользователе и "авторизует его на клиенте". Не забыть записать
-    //          в редакс инфу о пользователе после обращения к эндпоинту. /user/authwithtoken
-    //          также сделать проверку на просрочку токена, чтобы пользователя разлогинило и перенесло на
-    //          страницу авторизации
     useEffect(() => {
-        getPets().then(() => {
-            getShops().then(() => {
+        getPets()
+            .then(() => {
                 getUsers();
+            })
+            .then(() => {
+                getShops();
+            })
+            .then(() => {
+                let token = localStorage.getItem("token");
+                if (token) {
+                    authWithToken();
+                }
             });
-        });
     }, []);
 
     return (

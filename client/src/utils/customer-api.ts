@@ -1,4 +1,5 @@
 import { boundPets } from "../services/actions/pets";
+import { boundUser } from "../services/actions/user";
 import { TAnswer, TOrder, TOrderServer } from "../types/types";
 const CUSTOMER_API_URL = "http://localhost:5000/api/customer";
 
@@ -45,7 +46,15 @@ export const getCustomerOrders = async (user_id: number) => {
         .then((answer: TAnswer) => {
             if (answer.success) {
                 return answer.payload;
-            } else return Promise.reject(answer.payload);
+            } else {
+                if (answer.message === "Token Expired") {
+                    alert("Token Expired. Logging out!");
+                    localStorage.removeItem("token");
+                    boundUser.logout();
+                } else {
+                    return Promise.reject(answer.payload);
+                }
+            }
         });
 };
 
@@ -62,7 +71,6 @@ export const createOrder = async (order: TOrder) => {
             return res.json();
         })
         .then((answer: TAnswer) => {
-            console.log(answer);
             if (answer.success) {
                 return answer.payload;
             } else return Promise.reject(answer.payload);

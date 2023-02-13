@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import styles from "./pet-creator.module.css";
 import { MyInput } from "../../ui/input/myinput";
 import { MyDropMenu } from "../../ui/drop-menu/mydrop-menu";
@@ -10,11 +10,16 @@ import { TShop, TStore } from "../../../types/types";
 import { TPetCreatorState } from "../../../services/reducers/pet-creator/pet-creator";
 import { boundPetCreator } from "../../../services/actions/pet-creator";
 import { createPet, updatePet } from "../../../utils/vendor-api";
+import { Redirect } from "react-router";
+import { getPets } from "../../../utils/customer-api";
 interface PetsCreatorProps {}
 
 //TODO сделать так чтобы можно было заполнить форму при обновлении
 const PetsCreator: FC<PetsCreatorProps> = () => {
+    const [toggleRedirect, setToggleRedirect] = useState(false);
+    const [toggleGetForm, setToggleGetForm] = useState(false);
     const { shops } = useSelector<TStore, TPetsState>((store) => store.pets);
+
     const { pet, mode } = useSelector<TStore, TPetCreatorState>(
         (store) => store.petCreator
     );
@@ -25,10 +30,13 @@ const PetsCreator: FC<PetsCreatorProps> = () => {
         if (savedForm) {
             boundPetCreator.setPet(JSON.parse(savedForm));
         }
+        setToggleGetForm(true);
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("petCreationForm", JSON.stringify(pet));
+        if (toggleGetForm) {
+            localStorage.setItem("petCreationForm", JSON.stringify(pet));
+        }
     }, [pet]);
 
     const handleSubmit: React.FormEventHandler = (e) => {
@@ -36,7 +44,13 @@ const PetsCreator: FC<PetsCreatorProps> = () => {
         if (mode === "Create") {
             createPet({ ...pet });
         } else {
-            updatePet({ ...pet });
+            updatePet({ ...pet })
+                .then(() => {
+                    getPets();
+                })
+                .then(() => {
+                    setToggleRedirect(true);
+                });
         }
     };
 
@@ -45,6 +59,10 @@ const PetsCreator: FC<PetsCreatorProps> = () => {
 
         boundPetCreator.setPetShopId(newShop.Shop_id);
     };
+
+    if (toggleRedirect) {
+        return <Redirect to='/vendor' />;
+    }
 
     return (
         <form onSubmit={handleSubmit} className={styles.petsCreatorWrapper}>
@@ -94,7 +112,9 @@ const PetsCreator: FC<PetsCreatorProps> = () => {
                     }}
                 />
                 <MyButton type='submit' skin='primary'>
-                    Добавить питомца
+                    {mode === "Create"
+                        ? "Добавить питомца"
+                        : "Обновить питомца"}
                 </MyButton>
             </div>
             <div className={styles.rightContent}>

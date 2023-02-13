@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from "react";
-import styles from "./vendor-orders.module.css";
 import { ApproveIcon, CancelIcon } from "../../ui/icons/icons";
 import { MyTable } from "../../ui/table/mytable";
 import { useSelector } from "react-redux";
@@ -13,9 +12,8 @@ import {
 } from "../../../types/types";
 import { refuseOrder } from "../../../utils/customer-api";
 import { acceptOrder, getShopOrders } from "../../../utils/vendor-api";
-interface VendorOrdersProps {}
 
-const VendorOrders: FC<VendorOrdersProps> = ({}) => {
+const VendorOrders: FC = () => {
     const { users, user } = useSelector<TStore, TUserState>(
         (store) => store.user
     );
@@ -40,7 +38,7 @@ const VendorOrders: FC<VendorOrdersProps> = ({}) => {
     useEffect(() => {
         getShopOrders(
             {
-                ...shops.find((shop) => shop.adress === user.address),
+                ...shops.find((shop) => shop.adress === user.shop_address),
             }.Shop_id as number
         ).then((orders) => {
             let newIcons: TTableIcon[] = [];
@@ -63,9 +61,9 @@ const VendorOrders: FC<VendorOrdersProps> = ({}) => {
                     });
                 });
 
-                const newUser = users.find((user) => {
-                    if (user.user_id === order.user_id) return user;
-                }) as TUserClient;
+                const newUser = users.find(
+                    (user) => user.user_id === order.user_id
+                ) as TUserClient;
 
                 const newPetType = pets.find(
                     (pet) => order.pet_id === pet.pet_id
@@ -76,7 +74,7 @@ const VendorOrders: FC<VendorOrdersProps> = ({}) => {
                     newUser.name,
                     newUser.telephone,
                     newPetType ? newPetType : "",
-                    order.price,
+                    order.price + " $",
                 ];
             });
             setTableData({
@@ -85,6 +83,7 @@ const VendorOrders: FC<VendorOrdersProps> = ({}) => {
                 icons: [...newIcons],
             });
         });
+        // eslint-disable-next-line
     }, [pets]);
     return <MyTable skin='secondary' tableData={tableData} />;
 };

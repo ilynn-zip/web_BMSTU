@@ -52,6 +52,7 @@ class vendorController {
         }
         return response.json(answer);
     }
+
     async updatePet(request, response) {
         let result;
         let answer;

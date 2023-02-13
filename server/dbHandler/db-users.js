@@ -68,16 +68,15 @@ class UserMySQLRep extends MySQLRep {
     }
 
     // id => int
-    async getUserById(payload) {
+    async getUserById(id) {
         this.start();
-        if (payload.id === undefined) {
+        if (id === undefined) {
             return Promise.reject("empty payload");
         }
         return this.connection
-            .execute(`Select * from users where user_id = '${payload.id}'`)
+            .execute(`Select * from users where user_id = '${id}'`)
             .then((res) => {
-                console.log(res);
-                return res[0];
+                return res[0][0];
             })
             .then((data) => {
                 this.stop();

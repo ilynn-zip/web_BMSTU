@@ -29,7 +29,7 @@ const AdminMenuPage: FC<AdminMenuPageProps> = ({}) => {
         login: "",
         role: "customer",
         telephone: "",
-        address: "null",
+        shop_address: "null",
     });
     const { users } = useSelector<TStore, TUserState>((store) => store.user);
     const { shops } = useSelector<TStore, TPetsState>((store) => store.pets);

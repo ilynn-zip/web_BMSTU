@@ -14,17 +14,13 @@ const initialState: TUserState = {
         surname: "",
         telephone: "",
         role: "notAuthorized",
-        address: "null",
+        shop_address: "null",
     },
     users: [],
 };
 
 export const userReducer = (state = initialState, action: TUserAction) => {
     switch (action.type) {
-        case "SET_AUTHED":
-            return {
-                ...state,
-            };
         case "SET_USER":
             return {
                 ...state,
@@ -45,6 +41,7 @@ export const userReducer = (state = initialState, action: TUserAction) => {
                     surname: "",
                     telephone: "",
                     role: "notAuthorized",
+                    shop_address: "null",
                 },
             };
 

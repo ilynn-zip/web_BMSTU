@@ -68,10 +68,10 @@ class customerController {
     async getCustomerOrders(request, response) {
         let answer;
         let result = [];
+        console.log("getCustomerOrders");
         try {
             await dbOrders.getOrderedPets(request.body.user_id).then((data) => {
                 result = data;
-                console.log(data);
             });
 
             answer = serverAnswer(true, "OK", result);

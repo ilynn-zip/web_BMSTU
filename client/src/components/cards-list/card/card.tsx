@@ -15,21 +15,28 @@ interface CardProps {
 
 const Card: FC<CardProps> = ({ pet }) => {
     const { user } = useSelector<TStore, TUserState>((store) => store.user);
+    const { filteredPets } = useSelector<TStore, TPetsState>(
+        (store) => store.pets
+    );
+
     const orderPet = () => {
         createOrder({ userId: user.user_id, petId: pet.pet_id }).then(() => {
             getPets().then((data: TPet[]) => {
                 boundPets.setPets(data);
                 //TODO      сюда нужно будет передвать filteredpets только без того элемента который был заказан
-                boundPets.setFilteredPets(
-                    data.filter((pet) => pet.available === "yes")
+                let updatedFP = [...filteredPets];
+                let index = updatedFP.findIndex(
+                    (arrPet) => arrPet.pet_id === pet.pet_id
                 );
+                updatedFP.splice(index, 1);
+                boundPets.setFilteredPets([...updatedFP]);
             });
         });
     };
     return (
         <div className={styles.cardWrapper}>
             <div className={styles.cardImgWrapper}>
-                <img src={pic} width={319} height={223} />
+                <img src={pic} width={319} height={223} alt='Kitty pic' />
             </div>
             <div className={styles.cardContent}>
                 <div className={styles.cardOption}>

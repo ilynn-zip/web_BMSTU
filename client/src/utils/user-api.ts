@@ -71,6 +71,7 @@ export const register = (user: TUser) => {
         })
         .then((answer: TAnswer) => {
             if (answer.success) {
+                localStorage.setItem("token", answer.payload.token);
                 boundUser.setUser(answer.payload);
             }
             alert(answer.message);
@@ -94,6 +95,31 @@ export const auth = (authData: TAuthData) => {
                 console.log(answer.payload);
                 localStorage.setItem("token", answer.payload.token);
                 boundUser.setUser(answer.payload);
+            }
+            alert(answer.message);
+        });
+};
+
+export const authWithToken = () => {
+    const token = localStorage.getItem("token");
+    return fetch(`${USER_API_URL}/authWithToken`, {
+        method: "get",
+        headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+        },
+    })
+        .then((res) => {
+            return res.json();
+        })
+        .then((answer: TAnswer) => {
+            if (answer.success) {
+                console.log(answer.payload);
+                boundUser.setUser(answer.payload);
+            }
+            if (answer.message === "Token Expired") {
+                localStorage.removeItem("token");
             }
             alert(answer.message);
         });

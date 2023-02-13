@@ -39,7 +39,7 @@ export type TUserClient = {
     telephone: string;
     login: string;
     role: "admin" | "vendor" | "customer" | "notAuthorized";
-    address: string;
+    shop_address: string;
 };
 
 export type TOrderServer = {

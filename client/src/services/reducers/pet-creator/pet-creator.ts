@@ -6,9 +6,21 @@ export type TPetCreatorState = {
     mode: TPetCreatorMode;
 };
 const savedPet = JSON.parse(localStorage.getItem("petCreationForm") as string);
-
-const initialState: TPetCreatorState = {
-    pet: { ...savedPet },
+const initialState = {
+    pet: {
+        pet_id: -1,
+        shop_id: 0,
+        price: 0,
+        available: "no",
+        pet_type: "Cat",
+        name: "",
+        age: 0,
+        color: "",
+        can_swim: 0,
+        reproduce_ability: 0,
+        gender: "Male",
+        pet_breed: "",
+    },
     mode: "Create",
 };
 
