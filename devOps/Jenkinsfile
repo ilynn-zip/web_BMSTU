@@ -4,20 +4,20 @@ pipeline {
     stages {
         stage('Докачка библиотек') {
             steps {
-                cd 'client'
-                npm i
+                sh 'cd client'
+                sh 'npm i'
             }
         }
         stage('Тестирование') {
             steps {
                 echo 'Выполняем команды для тестирования'
-                npm test
+                sh 'npm test'
             }
         }
         stage('Сборка') {
             steps {
                 echo 'Выполняем команды для сборки'
-                npm build
+                sh 'npm build'
             }
         }
     }
