@@ -1,5 +1,5 @@
 import { TAnswer, TOrderServer, TPet } from "../types/types";
-const VENDOR_API_URL = "http://localhost:5000/api/vendor";
+const VENDOR_API_URL = "http://62.217.180.104:5000/api/vendor";
 
 export const createPet = async (pet: TPet) => {
     return await fetch(`${VENDOR_API_URL}/createPet`, {

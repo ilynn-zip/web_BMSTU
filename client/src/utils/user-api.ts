@@ -1,7 +1,7 @@
 import { boundUser } from "../services/actions/user";
 import { TAnswer, TAuthData, TUser } from "../types/types";
 
-const USER_API_URL = "http://localhost:5000/api/user";
+const USER_API_URL = "http://62.217.180.104:5000/api/user";
 
 export const getUsers = () => {
     return fetch(`${USER_API_URL}/getUsers`)
