@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Докачка библиотек') {
             steps {
-                cd client
+                cd 'client'
                 npm i
             }
         }
