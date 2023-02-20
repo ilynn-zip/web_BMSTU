@@ -5,19 +5,32 @@ pipeline {
         stage('Докачка библиотек') {
             steps {
                 echo 'Докачивание модулей'
-                sh 'updateLibs.sh'
+                sh '''#!/bin/bash
+
+                    cd client
+                    npm i
+                    cd ..
+                    cd server
+                    npm i
+                '''
             }
         }
         stage('Тестирование') {
             steps {
                 echo 'Выполняем команды для тестирования'
-                sh 'runTests.sh'
+                sh '''#!/bin/bash
+                cd client
+                jest
+                '''
             }
         }
         stage('Сборка') {
             steps {
                 echo 'Выполняем команды для сборки'
-                sh 'runBuild.sh'
+                sh '''#!/bin/bash
+                    cd client
+                    npm build
+                '''
             }
         }
     }
