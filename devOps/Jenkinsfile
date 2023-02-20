@@ -29,7 +29,7 @@ pipeline {
                 echo 'Выполняем команды для сборки'
                 sh '''#!/bin/bash
                     cd client
-                    npm build
+                    npm run build
                 '''
             }
         }
