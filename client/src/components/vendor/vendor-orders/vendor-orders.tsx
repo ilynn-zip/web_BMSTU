@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { ApproveIcon, CancelIcon } from "../../ui/icons/icons";
 import { MyTable } from "../../ui/table/mytable";
 import { useSelector } from "react-redux";
@@ -20,6 +20,7 @@ const VendorOrders: FC = () => {
     const { shops, pets } = useSelector<TStore, TPetsState>(
         (store) => store.pets
     );
+    const [toggleUpdateTable, setToggleUpdateTable] = useState(-1);
     const [tableData, setTableData] = useState<TTableData>({
         head: [
             "Номер Заказа",
@@ -35,56 +36,78 @@ const VendorOrders: FC = () => {
         ],
     });
 
-    useEffect(() => {
+    const getTableData = useCallback(() => {
         getShopOrders(
             {
                 ...shops.find((shop) => shop.adress === user.shop_address),
             }.Shop_id as number
-        ).then((orders) => {
-            let newIcons: TTableIcon[] = [];
+        )
+            .then((orders) => {
+                let newIcons: TTableIcon[] = [];
 
-            if (tableData.icons) {
-                newIcons = [...tableData.icons];
-            }
+                console.log(orders);
 
-            const newBody: string[][] = orders.map((order: any) => {
-                newIcons[0].onClickFns.push(() => {
-                    refuseOrder({
-                        order_number: order.order_number,
-                        pet_id: order.pet_id,
+                if (tableData.icons) {
+                    newIcons = [
+                        { ...tableData.icons[0], onClickFns: [] },
+                        { ...tableData.icons[1], onClickFns: [] },
+                    ];
+                }
+
+                const newBody: string[][] = orders.map((order: any) => {
+                    newIcons[0].onClickFns.push(async () => {
+                        await refuseOrder({
+                            order_number: order.order_number,
+                            pet_id: order.pet_id,
+                        });
+                        setToggleUpdateTable(order.order_number);
                     });
-                });
-                newIcons[1].onClickFns.push(() => {
-                    acceptOrder({
-                        order_number: order.order_number,
-                        pet_id: order.pet_id,
+                    newIcons[1].onClickFns.push(async () => {
+                        await acceptOrder({
+                            order_number: order.order_number,
+                            pet_id: order.pet_id,
+                        });
+                        setToggleUpdateTable(order.order_number);
                     });
+
+                    const newUser = users.find(
+                        (user) => user.user_id === order.user_id
+                    ) as TUserClient;
+
+                    console.log(newUser);
+
+                    const newPetType = pets.find(
+                        (pet) => order.pet_id === pet.pet_id
+                    )?.pet_type;
+
+                    return [
+                        order.order_number.toString(),
+                        newUser.name,
+                        newUser.telephone,
+                        newPetType ? newPetType : "",
+                        order.price + " $",
+                    ];
                 });
 
-                const newUser = users.find(
-                    (user) => user.user_id === order.user_id
-                ) as TUserClient;
-
-                const newPetType = pets.find(
-                    (pet) => order.pet_id === pet.pet_id
-                )?.pet_type;
-
-                return [
-                    order.order_number.toString(),
-                    newUser.name,
-                    newUser.telephone,
-                    newPetType ? newPetType : "",
-                    order.price + " $",
-                ];
+                return { newBody, newIcons };
+            })
+            .then(({ newBody, newIcons }) => {
+                setTableData({
+                    ...tableData,
+                    body: [...newBody],
+                    icons: [...newIcons],
+                });
             });
-            setTableData({
-                ...tableData,
-                body: [...newBody],
-                icons: [...newIcons],
-            });
-        });
+    }, [toggleUpdateTable, setToggleUpdateTable]);
+
+    useEffect(() => {
+        getTableData();
         // eslint-disable-next-line
-    }, [pets]);
+    }, [toggleUpdateTable]);
+
+    if (tableData.body.length === 0) {
+        return <h1>В магазине нет заказов</h1>;
+    }
     return <MyTable skin='secondary' tableData={tableData} />;
 };
 export { VendorOrders };

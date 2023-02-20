@@ -23,7 +23,6 @@ const Card: FC<CardProps> = ({ pet }) => {
         createOrder({ userId: user.user_id, petId: pet.pet_id }).then(() => {
             getPets().then((data: TPet[]) => {
                 boundPets.setPets(data);
-                //TODO      сюда нужно будет передвать filteredpets только без того элемента который был заказан
                 let updatedFP = [...filteredPets];
                 let index = updatedFP.findIndex(
                     (arrPet) => arrPet.pet_id === pet.pet_id

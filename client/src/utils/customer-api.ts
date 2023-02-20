@@ -2,6 +2,7 @@ import { boundPets } from "../services/actions/pets";
 import { boundUser } from "../services/actions/user";
 import { TAnswer, TOrder, TOrderServer } from "../types/types";
 const CUSTOMER_API_URL = "http://62.217.180.104:5000/api/customer";
+//const CUSTOMER_API_URL = "http://localhost:5000/api/customer";
 
 export const getPets = () => {
     return fetch(`${CUSTOMER_API_URL}/getPets`)

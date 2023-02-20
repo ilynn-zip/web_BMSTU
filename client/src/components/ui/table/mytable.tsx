@@ -43,7 +43,7 @@ const MyTable: FC<MyTableProps> = ({ skin = "secondary", tableData }) => {
                 >
                     {tableData.body.map((row, rowIndex) => {
                         return (
-                            <tr>
+                            <tr key={row[rowIndex]}>
                                 {row.map((cell) => {
                                     return <td>{cell}</td>;
                                 })}

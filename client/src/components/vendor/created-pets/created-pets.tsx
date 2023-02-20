@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { TPetsState } from "../../../services/reducers/pets/pets";
 import { TUserState } from "../../../services/reducers/user/user";
@@ -12,6 +12,7 @@ interface CreatedPetsProps {}
 
 const CreatedPets: FC<CreatedPetsProps> = () => {
     const { user } = useSelector<TStore, TUserState>((store) => store.user);
+    const [toggleUpdateTable, setToggleUpdateTable] = useState(-1);
     const { shops, pets } = useSelector<TStore, TPetsState>(
         (store) => store.pets
     );
@@ -31,53 +32,66 @@ const CreatedPets: FC<CreatedPetsProps> = () => {
         ],
     });
 
-    useEffect(() => {
+    const getTableData = useCallback(() => {
         getShopPets(
             {
                 ...shops.find((shop) => shop.adress === user.shop_address),
             }.Shop_id as number
-        ).then((data) => {
-            let newIcons: TTableIcon[] = [];
+        )
+            .then((data) => {
+                let newIcons: TTableIcon[] = [];
 
-            if (tableData.icons) {
-                newIcons = [...tableData.icons];
-            }
+                if (tableData.icons) {
+                    newIcons = [
+                        { ...tableData.icons[0], onClickFns: [] },
+                        { ...tableData.icons[1], onClickFns: [] },
+                    ];
+                }
 
-            let shopPets = data.map(
-                (el: any) =>
-                    pets.find((pet) => pet.pet_id === el.pet_id) as TPet
-            );
+                let shopPets = data.map(
+                    (el: any) =>
+                        pets.find((pet) => pet.pet_id === el.pet_id) as TPet
+                );
 
-            const newBody: string[][] = shopPets.map((shopPet: TPet) => {
-                newIcons[0].onClickFns.push(() => {
-                    deletePet(shopPet.pet_id);
+                const newBody: string[][] = shopPets.map((shopPet: TPet) => {
+                    newIcons[0].onClickFns.push(async () => {
+                        await deletePet(shopPet.pet_id);
+                        setToggleUpdateTable(shopPet.pet_id);
+                    });
+                    newIcons[1].onClickFns.push(() => {
+                        boundPetCreator.setPetCreatorMode("Update");
+                        boundPetCreator.setPet(shopPet);
+                        localStorage.setItem(
+                            "petCreationForm",
+                            JSON.stringify(shopPet)
+                        );
+                        setToggleRedirect(true);
+                    });
+
+                    return [
+                        shopPet.pet_id,
+                        shopPet.name,
+                        shopPet.gender,
+                        shopPet.pet_type,
+                        shopPet.price + " $",
+                    ];
                 });
-                newIcons[1].onClickFns.push(() => {
-                    boundPetCreator.setPetCreatorMode("Update");
-                    boundPetCreator.setPet(shopPet);
-                    localStorage.setItem(
-                        "petCreationForm",
-                        JSON.stringify(shopPet)
-                    );
-                    setToggleRedirect(true);
-                });
 
-                return [
-                    shopPet.pet_id,
-                    shopPet.name,
-                    shopPet.gender,
-                    shopPet.pet_type,
-                    shopPet.price + " $",
-                ];
+                return { newBody, newIcons };
+            })
+            .then(({ newBody, newIcons }) => {
+                setTableData({
+                    ...tableData,
+                    body: [...newBody],
+                    icons: [...newIcons],
+                });
             });
-            setTableData({
-                ...tableData,
-                body: [...newBody],
-                icons: [...newIcons],
-            });
-        });
         // eslint-disable-next-line
-    }, []);
+    }, [toggleUpdateTable]);
+
+    useEffect(() => {
+        getTableData();
+    }, [toggleUpdateTable]);
 
     if (toggleRedirect) return <Redirect to={"/vendor/petsCreation"} />;
 

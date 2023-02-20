@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { MyTable } from "../../ui/table/mytable";
 import {
     TOrderServer,
@@ -15,6 +15,7 @@ import { CancelIcon } from "../../ui/icons/icons";
 interface CustomerOrdersProps {}
 
 const CustomerOrders: FC<CustomerOrdersProps> = () => {
+    const [toggleUpdateTable, setToggleUpdateTable] = useState(-1);
     const { user } = useSelector<TStore, TUserState>((store) => store.user);
     const { pets, shops } = useSelector<TStore, TPetsState>(
         (store) => store.pets
@@ -34,72 +35,79 @@ const CustomerOrders: FC<CustomerOrdersProps> = () => {
     useEffect(() => {
         getTableData();
         // eslint-disable-next-line
-    }, []);
+    }, [toggleUpdateTable]);
 
-    const getTableData = () => {
-        getCustomerOrders(user.user_id).then((data: TOrderServer[]) => {
-            const filteredPets = pets.filter((pet) => pet.available === "no");
+    const getTableData = useCallback(() => {
+        getCustomerOrders(user.user_id)
+            .then((data: TOrderServer[]) => {
+                //филтруем только недоступных питомцев
+                const filteredPets = pets.filter(
+                    (pet) => pet.available === "no"
+                );
 
-            let orderedPets = data.map((order) => {
-                let orderedPet = filteredPets.find((pet) => {
-                    if (pet.pet_id === order.pet_id) {
-                        pet.order_number = order.order_number;
-                        return pet;
-                    }
-                    return undefined;
-                });
-                return orderedPet;
-            }) as TPet[];
-
-            orderedPets = orderedPets.filter((pet) => pet !== undefined);
-            console.log(orderedPets);
-
-            orderedPets.forEach((pet) => {
-                shops.find((shop) => {
-                    if (shop.Shop_id === pet.shop_id) {
-                        pet.shop_phone = shop.telephone;
-                        pet.shop_address = shop.adress;
-                    }
-                    return undefined;
-                });
-            });
-
-            let newIcons: TTableIcon[] = [];
-            if (tableData.icons) {
-                newIcons = [...tableData.icons];
-            }
-
-            const newBody = orderedPets.map((pet, index) => {
-                if (tableData.icons) {
-                    newIcons[0].onClickFns.push(() => {
-                        refuseOrder({
-                            pet_id: pet.pet_id,
-                            order_number: pet.order_number as number,
-                        });
+                let orderedPets = data.map((order) => {
+                    let orderedPet = filteredPets.find((pet) => {
+                        if (pet.pet_id === order.pet_id) {
+                            pet.order_number = order.order_number;
+                            return pet;
+                        }
+                        return undefined;
                     });
+                    return orderedPet;
+                }) as TPet[];
+
+                orderedPets = orderedPets.filter((pet) => pet !== undefined);
+
+                orderedPets.forEach((pet) => {
+                    shops.find((shop) => {
+                        if (shop.Shop_id === pet.shop_id) {
+                            pet.shop_phone = shop.telephone;
+                            pet.shop_address = shop.adress;
+                        }
+                        return undefined;
+                    });
+                });
+
+                let newIcons: TTableIcon[] = [];
+                if (tableData.icons) {
+                    newIcons = [{ ...tableData.icons[0], onClickFns: [] }];
                 }
-                return [
-                    pet.order_number ? pet.order_number.toString() : "-",
-                    pet.pet_type,
-                    pet.age.toString(),
-                    pet.shop_phone ? pet.shop_phone : "-",
-                    pet.price.toString() + " $",
-                    pet.shop_address ? pet.shop_address : "-",
-                ];
-            });
 
-            setTableData({
-                ...tableData,
-                body: [...newBody],
-                icons: [...newIcons],
-            });
-        });
-    };
+                const newBody = orderedPets.map((pet) => {
+                    if (tableData.icons) {
+                        newIcons[0].onClickFns.push(async () => {
+                            await refuseOrder({
+                                pet_id: pet.pet_id,
+                                order_number: pet.order_number as number,
+                            });
+                            setToggleUpdateTable(pet.pet_id);
+                        });
+                    }
+                    return [
+                        pet.order_number ? pet.order_number.toString() : "-",
+                        pet.pet_type,
+                        pet.age.toString(),
+                        pet.shop_phone ? pet.shop_phone : "-",
+                        pet.price.toString() + " $",
+                        pet.shop_address ? pet.shop_address : "-",
+                    ];
+                });
 
-    return (
-        <div>
-            <MyTable skin='secondary' tableData={tableData} />
-        </div>
-    );
+                return { newBody, newIcons };
+            })
+            .then(({ newBody, newIcons }) => {
+                setTableData({
+                    ...tableData,
+                    body: [...newBody],
+                    icons: [...newIcons],
+                });
+            });
+    }, [toggleUpdateTable, setToggleUpdateTable]);
+
+    if (tableData.body.length === 0) {
+        return <h1>У вас нет заказов</h1>;
+    }
+
+    return <MyTable skin='secondary' tableData={tableData} />;
 };
 export { CustomerOrders };

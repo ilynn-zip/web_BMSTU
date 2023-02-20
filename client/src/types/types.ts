@@ -15,6 +15,17 @@ export type TTableData = {
     icons?: Array<TTableIcon>;
 };
 
+export type TTableDataNew = {
+    head: string[];
+    rows: TTableRow[];
+};
+
+export type TTableRow = {
+    data: string[];
+    buttons?: Array<TTableButton>;
+    icons?: Array<TTableIcon>;
+};
+
 export type TTableButton = {
     title: string;
     onClickFns: Array<() => void>;

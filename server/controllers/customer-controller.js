@@ -78,6 +78,8 @@ class customerController {
         } catch (error) {
             answer = serverAnswer(false, `${error}`, {});
         }
+
+        console.log("getCustomerOrders done");
         return response.json(answer);
     }
 }
