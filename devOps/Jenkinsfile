@@ -20,7 +20,7 @@ pipeline {
                 echo 'Выполняем команды для тестирования'
                 sh '''#!/bin/bash
                 cd client
-                jest
+                npm test
                 '''
             }
         }
