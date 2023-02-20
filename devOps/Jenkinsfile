@@ -5,7 +5,6 @@ pipeline {
         stage('Докачка библиотек') {
             steps {
                 sh 'cd client'
-                sh 'npm i'
             }
         }
         stage('Тестирование') {
