@@ -5,19 +5,19 @@ pipeline {
         stage('Докачка библиотек') {
             steps {
                 echo 'Докачивание модулей'
-                sh './updateLibs'
+                sh './updateLibs.sh'
             }
         }
         stage('Тестирование') {
             steps {
                 echo 'Выполняем команды для тестирования'
-                sh './runTests'
+                sh './runTests.sh'
             }
         }
         stage('Сборка') {
             steps {
                 echo 'Выполняем команды для сборки'
-                sh './runBuild'
+                sh './runBuild.sh'
             }
         }
     }
