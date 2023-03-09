@@ -108,6 +108,6 @@ const VendorOrders: FC = () => {
     if (tableData.body.length === 0) {
         return <h1>В магазине нет заказов</h1>;
     }
-    return <MyTable skin='secondary' tableData={tableData} />;
+    return <MyTable skin='primary' tableData={tableData} />;
 };
 export { VendorOrders };

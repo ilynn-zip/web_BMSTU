@@ -9,21 +9,21 @@ interface NavigationProps {}
 const Navigation: FC<NavigationProps> = ({}) => {
     return (
         <div className={styles.buttonsWrapper}>
-            <MyButton skin='secondary'>
-                <Link className={styles.myLink} to='/vendor/orders'>
-                    Проверить заказы
-                </Link>
-            </MyButton>
-            <MyButton skin='secondary'>
-                <Link onClick={() => {boundPetCreator.setPetCreatorMode("Create")}} className={styles.myLink} to='/vendor/petsCreation'>
-                    Добавить питомца
-                </Link>
-            </MyButton>
-            <MyButton skin='secondary'>
-                <Link className={styles.myLink} to='/vendor/pets'>
-                    Редактировать питомцев
-                </Link>
-            </MyButton>
+            <Link className={styles.myLink} to='/vendor/orders'>
+                <MyButton skin='primary'>Проверить заказы</MyButton>
+            </Link>
+            <Link
+                onClick={() => {
+                    boundPetCreator.setPetCreatorMode("Create");
+                }}
+                className={styles.myLink}
+                to='/vendor/petsCreation'
+            >
+                <MyButton skin='primary'>Добавить питомца</MyButton>
+            </Link>
+            <Link className={styles.myLink} to='/vendor/pets'>
+                <MyButton skin='primary'>Редактировать питомцев</MyButton>
+            </Link>
         </div>
     );
 };

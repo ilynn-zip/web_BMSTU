@@ -9,10 +9,10 @@
 }
 
 .myTable {
-    color: white;
+    color: var(--primary-color-dark);
     font-weight: bold;
 
-    border-radius: 15px 15px 0 0;
+    border-radius: 15px;
     overflow: hidden;
 
     border-collapse: collapse;
@@ -21,6 +21,7 @@
 }
 
 .myThead th {
+    color: white;
     border-bottom: 2px solid black;
     padding: 20px;
 }
@@ -47,9 +48,11 @@
 
 .buttonCellBlue {
     background: var(--primary-color-regular) !important;
+    transition: 0.5s;
     border: 2px solid black;
 }
 .buttonCellBlue:hover {
+    transition: 0.5s;
     background: var(--primary-color-light) !important;
 }
 
@@ -62,7 +65,7 @@
 }
 
 .blue tr td {
-    background: var(--primary-color-light);
+    background: var(--primary-color-regular);
 }
 
 .blue th {

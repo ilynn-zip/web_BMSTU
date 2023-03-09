@@ -61,12 +61,10 @@ const RegisterPage: FC<RegisterPageProps> = ({}) => {
                 />
             </div>
             <div className={styles.buttonsWrapper}>
-                <MyButton skin='secondary'>Зарегистрироваться</MyButton>
-                <MyButton skin='secondary'>
-                    <Link className={styles.Link} to={"/login"}>
-                        Назад
-                    </Link>
-                </MyButton>
+                <MyButton skin='primary'>Зарегистрироваться</MyButton>
+                <Link className={styles.Link} to={"/login"}>
+                    <MyButton skin='primary'>Назад</MyButton>
+                </Link>
             </div>
         </form>
     );

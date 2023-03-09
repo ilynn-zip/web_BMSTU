@@ -95,6 +95,6 @@ const CreatedPets: FC<CreatedPetsProps> = () => {
 
     if (toggleRedirect) return <Redirect to={"/vendor/petsCreation"} />;
 
-    return <MyTable skin='secondary' tableData={tableData} />;
+    return <MyTable skin='primary' tableData={tableData} />;
 };
 export { CreatedPets };

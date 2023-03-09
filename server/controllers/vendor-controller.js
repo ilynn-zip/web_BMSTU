@@ -8,6 +8,7 @@ class vendorController {
         let answer;
         try {
             console.log("Create Pet");
+            console.log(request.body);
             await dbPets.getPetNewId().then((index) => {
                 result = index;
             });

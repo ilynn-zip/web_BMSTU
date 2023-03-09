@@ -4,7 +4,7 @@
     justify-content: center;
     flex-direction: column;
 
-    background: var(--primary-color-light);
+    background: var(--primary-color-regular);
     border-radius: 15px;
     max-width: 441px;
     max-height: 800px;

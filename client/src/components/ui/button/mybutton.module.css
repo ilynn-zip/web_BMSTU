@@ -31,7 +31,8 @@
 }
 
 .blue:hover {
-    background: var(--primary-color-regular);
+    background: white;
+    color: var(--primary-color-dark);
 }
 .green:hover {
     background: var(--secondary-color-regular);

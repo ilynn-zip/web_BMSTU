@@ -31,17 +31,15 @@ const Profile: FC<ProfileProps> = ({}) => {
                 </div>
             </div>
             <div className={styles.buttonsWrapper}>
-                <MyButton skin='secondary'>
-                    <Link className={styles.Link} to={"/customer/orders"}>
-                        Мои заказы
-                    </Link>
-                </MyButton>
+                <Link className={styles.Link} to={"/customer/orders"}>
+                    <MyButton skin='primary'>Мои заказы</MyButton>
+                </Link>
                 <MyButton
                     onClick={() => {
                         localStorage.removeItem("token");
                         boundUser.logout();
                     }}
-                    skin='secondary'
+                    skin='primary'
                 >
                     Выйти из профиля
                 </MyButton>

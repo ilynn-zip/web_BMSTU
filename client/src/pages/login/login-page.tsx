@@ -37,12 +37,10 @@ const LoginPage: FC<LoginPageProps> = ({}) => {
                 />
             </div>
             <div className={styles.buttonsWrapper}>
-                <MyButton skin='secondary'>Вход</MyButton>
-                <MyButton skin='secondary'>
-                    <Link className={styles.Link} to={"/register"}>
-                        Регистрация
-                    </Link>
-                </MyButton>
+                <MyButton skin='primary'>Вход</MyButton>
+                <Link className={styles.Link} to={"/register"}>
+                    <MyButton skin='primary'>Регистрация</MyButton>
+                </Link>
             </div>
         </form>
     );

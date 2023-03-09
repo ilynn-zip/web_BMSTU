@@ -108,6 +108,6 @@ const CustomerOrders: FC<CustomerOrdersProps> = () => {
         return <h1>У вас нет заказов</h1>;
     }
 
-    return <MyTable skin='secondary' tableData={tableData} />;
+    return <MyTable skin='primary' tableData={tableData} />;
 };
 export { CustomerOrders };

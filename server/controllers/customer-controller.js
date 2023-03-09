@@ -8,7 +8,7 @@ class customerController {
         let result;
         let answer;
         try {
-            console.log("createOrder");
+            console.log("getPets");
             await dbPets.getPetsWithInfo().then((pets) => {
                 result = pets;
             });
@@ -24,7 +24,7 @@ class customerController {
         let result;
         let answer;
         try {
-            console.log("createOrder");
+            console.log("getShops");
             await dbShop.getShops().then((shops) => {
                 result = shops;
             });
