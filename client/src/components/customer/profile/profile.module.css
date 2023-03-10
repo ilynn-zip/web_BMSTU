@@ -9,7 +9,7 @@
     border-radius: 15px;
 
     padding: 26px 55px;
-    gap: 70px;
+    gap: 40px;
 }
 
 .CustomerMenuPageContent p {
@@ -39,7 +39,7 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 38px;
+    gap: 20px;
 }
 
 .buttonsWrapper {

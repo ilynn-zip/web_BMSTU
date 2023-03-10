@@ -17,7 +17,7 @@
     color: white;
     font-size: 48px;
     font-weight: bold;
-    margin: 10px;
+    margin: 5px 0;
 }
 
 .priceWrapper {
@@ -29,6 +29,10 @@
     color: white;
     font-weight: bold;
     width: 100%;
+}
+
+.priceWrapper p {
+    margin: 10px;
 }
 
 .inputsWrapper {

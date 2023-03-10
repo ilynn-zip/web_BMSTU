@@ -9,7 +9,7 @@
     border-radius: 15px;
 
     padding: 26px 55px;
-    gap: 70px;
+    gap: 30px;
 }
 
 .RegisterPageContent p {
@@ -25,7 +25,7 @@
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
-    gap: 38px;
+    gap: 20px;
 }
 .buttonsWrapper {
     display: flex;
