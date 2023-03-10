@@ -66,111 +66,110 @@ const PetsCreator: FC<PetsCreatorProps> = () => {
 
     return (
         <form onSubmit={handleSubmit} className={styles.petsCreatorWrapper}>
-            <div className={styles.leftContent}>
-                <span>
-                    {mode === "Create"
-                        ? "Создание питомца"
-                        : "Обновление питомца"}
-                </span>
-                <MyDropMenu
-                    id='petType'
-                    options={["Cat", "Dog", "Hedgehog", "Raccoon", "Fox"]}
-                    title='Вид'
-                    value={pet.pet_type}
-                    changeHandler={boundPetCreator.setPetType}
-                />
-                <MyDropMenu
-                    id='petGender'
-                    options={["Male", "Female"]}
-                    title='Пол'
-                    value={pet.gender}
-                    changeHandler={boundPetCreator.setPetGender}
-                />
-                <MyDropMenu
-                    id='shopAddress'
-                    options={[...shops.map((shop) => shop.adress)]}
-                    title='Магазины'
-                    value={pet.shop_address}
-                    changeHandler={setShopId}
-                />
-                <MyCheckbox
-                    text='Способность плавать'
-                    checked={pet.can_swim === 0 ? false : true}
-                    setChecked={() => {
-                        boundPetCreator.setPetCanSwin(
-                            pet.can_swim === 0 ? 1 : 0
-                        );
-                    }}
-                />
-                <MyCheckbox
-                    text='Способность плодиться'
-                    checked={pet.reproduce_ability === 0 ? false : true}
-                    setChecked={() => {
-                        boundPetCreator.setPetCanReproduce(
-                            pet.reproduce_ability === 0 ? 1 : 0
-                        );
-                    }}
-                />
-                <MyButton type='submit' skin='primary'>
-                    {mode === "Create"
-                        ? "Добавить питомца"
-                        : "Обновить питомца"}
-                </MyButton>
-            </div>
-            <div className={styles.rightContent}>
-                <>
-                    <p>Имя питомца</p>
-                    <MyInput
-                        value={pet.name}
-                        onChange={(e) => {
-                            boundPetCreator.setPetName(e.target.value);
-                        }}
-                        placeholder='Введите породу'
+            <p className={styles.title}>
+                {mode === "Create" ? "Создание питомца" : "Обновление питомца"}
+            </p>
+
+            <div className={styles.inputsWrapper}>
+                <div className={styles.leftContent}>
+                    <MyDropMenu
+                        id='petType'
+                        options={["Cat", "Dog", "Hedgehog", "Raccoon", "Fox"]}
+                        title='Вид'
+                        value={pet.pet_type}
+                        changeHandler={boundPetCreator.setPetType}
                     />
-                </>
-                <>
-                    <p>Порода питомца</p>
-                    <MyInput
-                        value={pet.pet_breed}
-                        onChange={(e) => {
-                            boundPetCreator.setPetBreed(e.target.value);
-                        }}
-                        placeholder='Введите текст'
+                    <MyDropMenu
+                        id='petGender'
+                        options={["Male", "Female"]}
+                        title='Пол'
+                        value={pet.gender}
+                        changeHandler={boundPetCreator.setPetGender}
                     />
-                </>
-                <div>
-                    <p>Возраст питомца</p>
-                    <MyInput
-                        value={pet.age}
-                        onChange={(e) => {
-                            boundPetCreator.setPetAge(+e.target.value);
+                    <MyDropMenu
+                        id='shopAddress'
+                        options={[...shops.map((shop) => shop.adress)]}
+                        title='Магазины'
+                        value={pet.shop_address}
+                        changeHandler={setShopId}
+                    />
+                    <MyCheckbox
+                        text='Способность плавать'
+                        checked={pet.can_swim === 0 ? false : true}
+                        setChecked={() => {
+                            boundPetCreator.setPetCanSwin(
+                                pet.can_swim === 0 ? 1 : 0
+                            );
                         }}
-                        type='number'
-                        placeholder='Введите текст'
+                    />
+                    <MyCheckbox
+                        text='Способность плодиться'
+                        checked={pet.reproduce_ability === 0 ? false : true}
+                        setChecked={() => {
+                            boundPetCreator.setPetCanReproduce(
+                                pet.reproduce_ability === 0 ? 1 : 0
+                            );
+                        }}
                     />
                 </div>
-                <div>
-                    <p>Цвет питомца</p>
-                    <MyInput
-                        value={pet.color}
-                        onChange={(e) => {
-                            boundPetCreator.setPetColor(e.target.value);
-                        }}
-                        placeholder='Введите текст'
-                    />
-                </div>
-                <div>
-                    <p>Цена питомца</p>
-                    <MyInput
-                        value={pet.price}
-                        onChange={(e) => {
-                            boundPetCreator.setPetPrice(+e.target.value);
-                        }}
-                        type='number'
-                        placeholder='Введите текст'
-                    />
+                <div className={styles.rightContent}>
+                    <>
+                        <p>Имя питомца</p>
+                        <MyInput
+                            value={pet.name}
+                            onChange={(e) => {
+                                boundPetCreator.setPetName(e.target.value);
+                            }}
+                            placeholder='Введите породу'
+                        />
+                    </>
+                    <>
+                        <p>Порода питомца</p>
+                        <MyInput
+                            value={pet.pet_breed}
+                            onChange={(e) => {
+                                boundPetCreator.setPetBreed(e.target.value);
+                            }}
+                            placeholder='Введите текст'
+                        />
+                    </>
+                    <div>
+                        <p>Возраст питомца</p>
+                        <MyInput
+                            value={pet.age}
+                            onChange={(e) => {
+                                boundPetCreator.setPetAge(+e.target.value);
+                            }}
+                            type='number'
+                            placeholder='Введите текст'
+                        />
+                    </div>
+                    <div>
+                        <p>Цвет питомца</p>
+                        <MyInput
+                            value={pet.color}
+                            onChange={(e) => {
+                                boundPetCreator.setPetColor(e.target.value);
+                            }}
+                            placeholder='Введите текст'
+                        />
+                    </div>
+                    <div>
+                        <p>Цена питомца</p>
+                        <MyInput
+                            value={pet.price}
+                            onChange={(e) => {
+                                boundPetCreator.setPetPrice(+e.target.value);
+                            }}
+                            type='number'
+                            placeholder='Введите текст'
+                        />
+                    </div>
                 </div>
             </div>
+            <MyButton type='submit' skin='primary'>
+                {mode === "Create" ? "Добавить питомца" : "Обновить питомца"}
+            </MyButton>
         </form>
     );
 };
