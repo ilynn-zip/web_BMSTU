@@ -86,7 +86,7 @@ const Filter: FC<FilterProps> = () => {
             onSubmit={onFormSubmit}
             className={styles.filterWrapper}
         >
-            <p className={styles.filterTitle}>Новый Фильтр</p>
+            <p className={styles.filterTitle}>Фильтр1</p>
             <MyDropMenu
                 id='petType'
                 options={["Any", "Cat", "Dog", "Hedgehog", "Raccoon", "Fox"]}
